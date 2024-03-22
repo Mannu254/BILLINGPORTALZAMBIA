@@ -1,0 +1,108 @@
+
+.navbar-brand{
+    font-weight: bolder;
+    font-family:'Times New Roman', Times, serif;
+    margin-left:-60px;
+      
+}
+.navbar-nav > li > a, .navbar-brand {padding-top:5px !important; padding-bottom:0 !important; 	height: 22px; }
+ .navbar {min-height:30px !important;
+
+}
+
+.nav-link{
+    font-size: 14px;
+    color:white !important;
+    z-index: 2;
+}
+.nav-item a:hover {
+     text-decoration: underline;
+    text-decoration-color:chartreuse;
+    }
+    .username{
+        margin-right: -100px;
+    }
+    .role{
+        font-size:14px;
+        font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        font-weight: bolder;
+        text-decoration:underline;
+    }
+    .username{
+        margin-right: -100px;
+    }
+    .navbarhome2{
+        background-color:#00BFFF !important; 
+        position: fixed; 
+        width: 100%;
+        z-index: 1000;
+       
+        
+     }
+
+     .panel-heading{
+
+        background-color:#00BFFF;
+     }
+     button
+    {
+    margin-top: 10px;
+        margin-left: 10px;
+    }
+    .btn-xs
+    {
+        padding: 1px 5px !important;
+        font-size: 12px !important;
+        line-height: 1.5 !important;
+        border-radius: 3px !important;
+    }
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        z-index: 1000 !important;
+       
+        
+      }
+        
+      .dropdown .dropdown-menu {
+        display: none;
+        z-index: 1000 !important;
+       
+      }
+      .navbar .navbar-nav .nav-link {
+          color: #000000;
+          font-size: 1.1em;
+          font-family: 'Open Sans',sans-serif;
+          font-weight:400;
+         
+          
+      }
+      .navbar .navbar-nav .nav-link:hover{
+          color: #808080;
+      }
+      @media screen and (min-width: 992px) {
+        .dropdown:hover .dropdown-menu {
+          display: block;
+          
+        }
+    }
+        .dropdown .dropdown-menu {
+          display: none;
+          
+        }
+      
+
+      /* multi part form */
+      /*custom font*/
+/*custom font*/
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+/*basic reset*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+      
