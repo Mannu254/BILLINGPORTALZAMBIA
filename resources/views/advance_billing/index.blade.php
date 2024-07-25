@@ -9,6 +9,7 @@
   }
   table thead th{
         color:white !important;
+        background-color:deepskyblue !important;
         font-size: 12px;
         font-family:apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         font-weight: 600;
@@ -105,6 +106,9 @@ h6{
 table{
   width: 100%;
 }
+.card{
+  height: 60px;
+}
 </style>
 <div class="container-fluid position-fixed; position:absolute;">
 <div class="card" style="background-color:lightgrey">
@@ -121,10 +125,10 @@ table{
 </select>
 </div>
 
-<button class='clearAll btn btn-primary btn-xs'><i class="fa fa-lg fa-times-circle"></i></button>
+<button class='clearAll btn btn-danger btn-xs'><i class="fa fa-lg fa-times-circle"></i></button>
 
   <div class="input-group mb col-md-3">
-  <button type="button" id="customer_get" class="btn btn-primary btn btn-block twoToneButton"> <i class="fa fa-lg fa-refresh"></i>   Get Selected Customer List</button>
+  <button type="button" id="customer_get" class="btn btn-danger btn btn-block twoToneButton"> <i class="fa fa-lg fa-refresh"></i>   Get Selected Customer List Adv. Billing</button>
   </div>
   
  
@@ -147,7 +151,7 @@ table{
     {{ csrf_field() }}
     <div class="container-fluid" style="width: 160px;">
     <div class="input-group">
-    <input type="" class="form-control form-control-sm" readonly id="" value="{{$session->session_date ?? ''}}"  placeholder="Select Billing Date" required name="billing_date">
+    <input type="" class="form-control form-control-sm" style="text-align: center;color:chartreuse;background-color:black" readonly id="" value="{{$session->session_date ?? ''}}" placeholder="Select Billing Date" required name="billing_date">
     </div></div>
       
 
@@ -181,7 +185,7 @@ table{
   
   </tbody>
   </table>
-  <button type="submit"  name="submit"  class="btn btn-xs mr-auto btn-success"></i> Go to Meter Reading Review <i class="fa fa-arrow-right"></i></button>
+  <button type="submit"  name="submit"  class="btn btn-xs mr-auto btn-info"></i> Go to Meter Reading Review <i class="fa fa-arrow-right"></i></button>
 </form>
 
 </div>

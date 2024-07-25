@@ -246,10 +246,8 @@ class BillingExecutiveController extends Controller
             ->whereMonth('ReadingDate', '=', $today_current->month) 
             ->select(DB::raw('Max(_cplmeterreading.ReadingDate) as reading_date'),DB::raw('Max(_cplmeterreading.Autoidx) as id'),
             DB::raw('Max(_cplmeterreading.MonPMR) as mono_pmr'),
-            DB::raw('Max(_cplmeterreading.ColPMR) as color_pmr'),
-            DB::raw('Max(_cplmeterreading.A3MPMR) as a3_mono_pmr'),
-            DB::raw('Max(_cplmeterreading.A3CPMR) as a3_color_pmr'),
-            DB::raw('Max(_cplmeterreading.ScnPMR) as scan_pmr')
+            DB::raw('Max(_cplmeterreading.ColPMR) as color_pmr')
+            
             
             )
             ->first();           
@@ -257,9 +255,7 @@ class BillingExecutiveController extends Controller
             $machine->ReadingDate = $Previous_readings_db->reading_date ?? Null;
             $machine->mono_pmr =$Previous_readings_db->mono_pmr  ?? NULL;
             $machine->color_pmr =$Previous_readings_db->color_pmr  ?? NULL;
-            $machine->scan_pmr =$Previous_readings_db->scan_pmr  ?? NULL;
-            $machine->a3_mono_pmr =$Previous_readings_db->a3_mono_pmr  ?? NULL;
-            $machine->a3_color_pmr =$Previous_readings_db->a3_color_pmr  ?? NULL;
+            
         
             
 
@@ -275,10 +271,7 @@ class BillingExecutiveController extends Controller
         ->whereMonth('ReadingDate', '=', $today->month) 
         ->select(DB::raw('Max(_cplmeterreading.ReadingDate) as reading_date'),DB::raw('Max(_cplmeterreading.Autoidx) as id'),
         DB::raw('Max(_cplmeterreading.MonCMR) as mono_pmr'),
-        DB::raw('Max(_cplmeterreading.ColCMR) as color_pmr'),
-        DB::raw('Max(_cplmeterreading.A3MCMR) as a3_mono_pmr'),
-        DB::raw('Max(_cplmeterreading.A3CCMR) as a3_color_pmr'),
-        DB::raw('Max(_cplmeterreading.ScnCMR) as scan_pmr')
+        DB::raw('Max(_cplmeterreading.ColCMR) as color_pmr')
         
         )
         ->first();                
@@ -286,9 +279,7 @@ class BillingExecutiveController extends Controller
         $machine->ReadingDate = $Previous_readings->reading_date;
         $machine->mono_pmr =$Previous_readings->mono_pmr  ?? NULL;
         $machine->color_pmr =$Previous_readings->color_pmr  ?? NULL;
-        $machine->scan_pmr =$Previous_readings->scan_pmr  ?? NULL;
-        $machine->a3_mono_pmr =$Previous_readings->a3_mono_pmr  ?? NULL;
-        $machine->a3_color_pmr =$Previous_readings->a3_color_pmr  ?? NULL;
+      
 
 
                 }
@@ -309,19 +300,15 @@ class BillingExecutiveController extends Controller
         
         ->select(DB::raw('Max(_cplmeterreading.ReadingDate) as reading_date'),DB::raw('Max(_cplmeterreading.Autoidx) as id'),
         DB::raw('Max(_cplmeterreading.MonCMR) as mono_pmr'),
-        DB::raw('Max(_cplmeterreading.ColCMR) as color_pmr'),
-        DB::raw('Max(_cplmeterreading.A3MCMR) as a3_mono_pmr'),
-        DB::raw('Max(_cplmeterreading.A3CCMR) as a3_color_pmr'),
-        DB::raw('Max(_cplmeterreading.ScnCMR) as scan_pmr'))      
+        DB::raw('Max(_cplmeterreading.ColCMR) as color_pmr')
+        )      
         ->first();
         
      
          $machine->ReadingDate = $Previous_readings->reading_date;
          $machine->mono_pmr =$Previous_readings->mono_pmr  ?? NULL;
          $machine->color_pmr =$Previous_readings->color_pmr  ?? NULL;
-         $machine->scan_pmr =$Previous_readings->scan_pmr  ?? NULL;
-         $machine->a3_mono_pmr =$Previous_readings->a3_mono_pmr  ?? NULL;
-        $machine->a3_color_pmr =$Previous_readings->a3_color_pmr  ?? NULL;
+        
 
         }
 
@@ -333,7 +320,7 @@ class BillingExecutiveController extends Controller
         ->whereYear('ReadingDate', '=', $today_current->year)
         ->whereMonth('ReadingDate', '=', $today_current->month)      
         ->select('_cplmeterreading.ReadingDate','_cplmeterreading.Autoidx','_cplmeterreading.MonCMR',
-        '_cplmeterreading.ColCMR','_cplmeterreading.ScnCMR','_cplmeterreading.A3MCMR','_cplmeterreading.A3CCMR')
+        '_cplmeterreading.ColCMR')
         ->first();
 
        
@@ -342,9 +329,7 @@ class BillingExecutiveController extends Controller
         
         $machine->MonCMR =$current_readings->MonCMR  ?? NULL;
         $machine->ColCMR =$current_readings->ColCMR  ?? NULL;
-        $machine->ScnCMR =$current_readings->ScnCMR  ?? NULL;
-        $machine->A3MCMR =$current_readings->A3MCMR  ?? NULL;
-        $machine->A3CCMR =$current_readings->A3CCMR  ?? NULL;
+        
 
         
 
@@ -357,16 +342,14 @@ class BillingExecutiveController extends Controller
             ->whereYear('reading_date', '=', $today_current->year)
             ->whereMonth('reading_date', '=', $today_current->month)      
             ->select('monthlyreadings.reading_date','monthlyreadings.id','monthlyreadings.mono_cmr','monthlyreadings.copies_mono','monthlyreadings.copies_col',
-            'monthlyreadings.color_cmr','monthlyreadings.scan_cmr','monthlyreadings.a3mono_cmr','monthlyreadings.a3color_cmr')
+            'monthlyreadings.color_cmr')
             ->first();            
 
             
             
             $machine->MonCMR =$current_readings_db->mono_cmr  ?? NULL;
             $machine->ColCMR =$current_readings_db->color_cmr  ?? NULL;
-            $machine->ScnCMR =$current_readings_db->scan_cmr  ?? NULL;
-            $machine->A3MCMR =$current_readings_db->a3mono_cmr  ?? NULL;
-            $machine->A3CCMR =$current_readings_db->a3color_cmr  ?? NULL;   
+            
             
             $machine->copies_mono =$current_readings_db->copies_mono  ?? NULL;  
             $machine->copies_col =$current_readings_db->copies_col  ?? NULL;  
@@ -588,34 +571,36 @@ class BillingExecutiveController extends Controller
 
         $today=Carbon::parse($request->input('billing_date'));     
 
-   
-        $billing_review_data = DB::table('_bvARAccountsFull As cl')
+        
+        $billing_review_data = DB::table('_smtblServiceAsset As sa')
         ->whereIn('DCLink',$clients)
-        ->whereYear('ReadingDate', '=', $today->year)
-        ->whereMonth('ReadingDate', '=', $today->month)   
+        
         ->Where(function($query)
         {
             $query->where('sa.cDescription', 'NOT LIKE', '%KISA%')
             ->orwhere('sa.cDescription', 'NOT LIKE', '%TAI%')
+            
             ->orWhereNull('sa.cDescription');
         })          
-        ->select('cl.name','cl.account','cl.currencycode','cl.ulARJointSeparateBill',DB::raw('sum(cmr.moncmr - cmr.monpmr) as monunit'),
+        ->select('cl.DCLink','cl.name','cl.account','cl.currencycode','cl.ulARJointSeparateBill',DB::raw('sum(cmr.moncmr - cmr.monpmr) as monunit'),
        
-        DB::raw('sum(cmr.colcmr - cmr.colpmr) as colunit'),
-        DB::raw('sum(cmr.scncmr - cmr.scnpmr) as scnunit'),
-        DB::raw('sum(cmr.a3mcmr - cmr.a3mpmr) as a3munit'),
-        DB::raw('sum(cmr.a3ccmr - cmr.a3cpmr) as a3cunit'),
+        DB::raw('sum(cmr.colcmr - cmr.colpmr) as colunit'),       
         DB::raw('MAX(CASE WHEN sa.ucSABillingAsset IS NULL THEN sa.ccode ELSE sa.ucSABillingAsset END) AS billingasset'),
         DB::raw("MAX(CASE WHEN sa.ucSABillingAsset IS NULL THEN sa.cdescription ELSE 'Billed Asset' END) AS assetdesc")      
          )
-        ->join('_smtblServiceAsset As sa', 'cl.DCLink', '=', 'sa.icustomerid')  
-        ->join('_cplmeterreading As cmr', 'sa.autoidx', '=', 'cmr.assetid')         
-        ->groupBy('cl.name','cl.account','cl.currencycode','cl.ulARJointSeparateBill',DB::raw('CASE WHEN sa.ucSABillingAsset IS NULL THEN sa.ccode ELSE sa.ucSABillingAsset END'))
+         ->leftjoin('_bvARAccountsFull As cl', 'cl.DCLink', '=', 'sa.icustomerid')  
+         ->leftjoin('_cplmeterreading As cmr', 'sa.autoidx', '=', 'cmr.assetid')  
+          ->whereYear('ReadingDate', '=', $today->year)
+         ->whereMonth('ReadingDate', '=', $today->month)          
+        
+
+
+        ->groupBy('cl.DCLink','cl.name','cl.account','cl.currencycode','cl.ulARJointSeparateBill',DB::raw('CASE WHEN sa.ucSABillingAsset IS NULL THEN sa.ccode ELSE sa.ucSABillingAsset END'))
         ->get();
 
 
 
-        // dd($billing_review_data);
+        //   dd($billing_review_data);
 
     
            
@@ -656,7 +641,7 @@ class BillingExecutiveController extends Controller
             ->groupBy('uhl.UserValue','inv.orderNum')
             ->first();
 
-//   dd($check_if_done);
+//  dd($check_if_done);
 
           
 
@@ -667,15 +652,10 @@ class BillingExecutiveController extends Controller
             ->where('cCode',$data->billingasset)
             ->select('AutoIdx')
             ->first();  
+
             
-           
-        
-         // get sigle billed asset error need to be corrected dont encourage this
-
-        //  $arr_cust=array("M720","Y001","P088","A090","A015","K496");
-
-           
-                   
+            
+                         
       
       
           //get any rental amount for the billed asset
@@ -692,7 +672,32 @@ class BillingExecutiveController extends Controller
 
 
 
+
+
           $data->famount =$rentamt->fAmount ?? 0;
+
+          //software Charges
+        
+
+
+         
+
+          $software =DB::table('_smtblperiodservice As ps')
+          ->where('iServiceAssetId',$asset_id->AutoIdx ?? '')
+          ->Where(function($query)
+          {
+              $query->where('cDescription','Software Rental Charges')
+              ->orwhere('cDescription','Scanner Charges');
+             
+          })            
+          ->select(DB::raw('sum(fAmount) as fAmount'))
+          ->first();
+
+         
+
+          $data->software =$software->fAmount ?? 0;
+
+         
 
 
             // "MONO" get the billing id
@@ -1000,7 +1005,7 @@ class BillingExecutiveController extends Controller
             
             $rate_2 =number_format($next_slab_col->fRate,3); 
 
-            $diff_remaining2_color = ($diff_bal_slab - $diff_slab_color);
+            // $diff_remaining2_color = ($diff_bal_slab - $diff_slab_color);
 
             // we increase minimum to move to the next slab 
 
@@ -1021,11 +1026,11 @@ class BillingExecutiveController extends Controller
 
             // we check if balance is still bigger or less
 
-            $diff_remaining3_color =$diff_remaining2_color -  $slab_3_diff;
+            $diff_remaining3_color =$diff_bal_slab -  $slab_3_diff;
 
             if($diff_remaining3_color < 0){
 
-            $total_slab_3_col =($diff_remaining2_color * $rate_slab3_color->fRate );
+            $total_slab_3_col =($diff_bal_slab * $rate_slab3_color->fRate );
 
             $rate_3 =number_format($rate_slab3_color->fRate,3); 
 
@@ -1107,201 +1112,9 @@ class BillingExecutiveController extends Controller
     }
 
 
-    // A3 MONO BILLING
-        // "MONO"
-        $A3counter_elapse =DB::table('_smtblcounterelapsed')
-        ->where('iServiceAssetId',$asset_id->AutoIdx ?? '')
-        ->where('cCode','BILLA3M')
-        ->select('iMeterId')
-        ->first();  
-
-     
-        if(!empty($A3counter_elapse)){
-          $A3min_vol = _smtblrateslab::where('iBillingID',$A3counter_elapse->iMeterId ?? '')
-            ->select(DB::raw('min(iToqty) as min_vol'),'fRate')
-            ->groupBy('fRate',DB::raw('(iToqty)'))
-            ->first();
-
-         
-
-            if($A3min_vol->min_vol >=1000000){
-                $data->a3min_mono_vol = null;
-               }
-            else{
-                $data->a3min_mono_vol =$A3min_vol->min_vol ?? null;
-            }
-            if( $A3min_vol->min_vol  >=1000000 ){
-
-                $total_frate_a3m =($A3min_vol->fRate * $data->a3munit);
-                $rate_frate_a3m =number_format($A3min_vol->fRate,3);
-
-              
-
-                $data->comb_rates_a3m = $rate_frate_a3m;
-                $data->total_a3m = $total_frate_a3m;            
-
-
-            }
-
-            else{
-                $diff_a3mon = ($data->a3munit - $A3min_vol->min_vol);
-                if($diff_a3mon > 0){
-                    $rate_min_a3m =_smtblrateslab::where('iBillingID',$counter_elapse->iMeterId)
-                    ->where('iToqty',$A3min_vol->min_vol)
-                    ->select('frate')
-                    ->first();
-                    $total_min_a3m =($rate_min_a3m->frate * $A3min_vol->min_vol);
-
-                    $rate_a3m =number_format($rate_min_a3m->frate,3);
-                    
-                    //slab two starts
-                    $Increment_1a3m =$A3min_vol->min_vol +1; 
-
-            
-                // we get the rate for the next slab and their readings
-                $next_slab_a3m =_smtblrateslab::where('iBillingID',$A3counter_elapse->iMeterId)
-                ->where('iFromQty','<=',$Increment_1a3m)
-                ->where('iToqty','>=',$Increment_1a3m)
-                ->select('iFromQty','iToqty','fRate')
-                ->first();
-           
-                    //  we get the difference of this slab
-                $diff_slab1_a3m =($next_slab_a3m->iToqty - $next_slab_a3m->iFromQty)+1;
-
-
-                //  we check if the remainder fulls fall in this slab or exceed
-                $diff_bil_slab_a3m =$diff_a3mon -$diff_slab1_a3m;           
-
-               //counts fits fully in this slab the difference is negative
-                if($diff_bil_slab_a3m < 0){
-                    $total_slab_1_a3m =($diff_a3mon * $next_slab_a3m->fRate );
-
-                    $rate_2_a3m =number_format($next_slab_a3m->fRate,3);            
-
-                // two slabs used             
-                $comb_rates_a3m =$rate_a3m.' | '.$rate_2_a3m;
-                $total_a3m =($total_slab_1_a3m +$total_min_a3m);
-
-                $data->comb_rates_a3m = $comb_rates_a3m;
-                $data->total_a3m = $total_a3m;          
-            
-            }
-            }
-
-            else{
-                $rate_min_a3m =_smtblrateslab::where('iBillingID',$counter_elapse->iMeterId)
-                    ->where('iToqty',$A3min_vol->min_vol)
-                    ->select('frate')
-                    ->first();
-                $total_min_a3m =($rate_min_a3m->frate * $A3min_vol->min_vol);
-                $rate_a3m =number_format($rate_min_a3m->frate,3);
     
-                $data->comb_rates_a3m = $rate_a3m;
-                $data->total_a3m = $total_min_a3m;  
-
-            }
-            }
-        }
-
         
-    // A3 COLOR BILLING
-
-
-          // "COLOR"
-          $A3Ccounter_elapse =DB::table('_smtblcounterelapsed')
-          ->where('iServiceAssetId',$asset_id->AutoIdx ?? '')
-          ->where('cCode','BILLA3C')
-          ->select('AutoIdx')
-          ->first();  
-
-      
-         if(!empty($A3Ccounter_elapse)){
-            $A3Cmin_vol = _smtblrateslab::where('iBillingID',$A3Ccounter_elapse->iMeterId ?? '')
-              ->select(DB::raw('min(iToqty) as min_vol'),'fRate')
-              ->groupBy('fRate',DB::raw('(iToqty)'))
-              ->first();
-  
-        
-  
-              if($A3Cmin_vol->min_vol >=1000000){
-                  $data->a3Cmin_color_vol = null;
-                 }
-              else{
-                  $data->a3Cmin_color_vol =$A3Cmin_vol->min_vol ?? null;
-              }
-              if( $A3Cmin_vol->min_vol  >=1000000 ){
-  
-                  $total_frate_a3C =($A3Cmin_vol->fRate * $data->a3cunit);
-                  $rate_frate_a3C =number_format($A3Cmin_vol->fRate,3);
-  
-                
-  
-                  $data->comb_rates_a3C = $rate_frate_a3C;
-                  $data->total_a3C = $total_frate_a3C;            
-  
-  
-              }
-  
-              else{
-                  $diff_a3Col = ($data->a3cunit - $A3Cmin_vol->min_vol);
-                  if($diff_a3Col > 0){
-                      $rate_min_a3C =_smtblrateslab::where('iBillingID',$A3Ccounter_elapse->iMeterId)
-                      ->where('iToqty',$A3Cmin_vol->min_vol)
-                      ->select('frate')
-                      ->first();
-                      $total_min_a3C =($rate_min_a3C->frate * $A3Cmin_vol->min_vol);
-  
-                      $rate_a3C =number_format($rate_min_a3C->frate,3);
-                      
-                      //slab two starts
-                      $Increment_1a3C =$A3Cmin_vol->min_vol +1; 
-  
-              
-                  // we get the rate for the next slab and their readings
-                  $next_slab_a3C =_smtblrateslab::where('iBillingID',$A3Ccounter_elapse->iMeterId)
-                  ->where('iFromQty','<=',$Increment_1a3C)
-                  ->where('iToqty','>=',$Increment_1a3C)
-                  ->select('iFromQty','iToqty','fRate')
-                  ->first();
-             
-                      //  we get the difference of this slab
-                  $diff_slab1_a3C =($next_slab_a3C->iToqty - $next_slab_a3C->iFromQty)+1;
-  
-  
-                  //  we check if the remainder fulls fall in this slab or exceed
-                  $diff_bil_slab_a3C =$diff_a3Col -$diff_slab1_a3C;           
-  
-                 //counts fits fully in this slab the difference is negative
-                  if($diff_bil_slab_a3C < 0){
-                      $total_slab_1_a3C =($diff_a3Col * $next_slab_a3C->fRate );
-  
-                      $rate_2_a3C =number_format($next_slab_a3C->fRate,3);            
-  
-                  // two slabs used             
-                  $comb_rates_a3C =$rate_a3C.' | '.$rate_2_a3C;
-                  $total_a3C =($total_slab_1_a3C +$total_min_a3C);
-  
-                  $data->comb_rates_a3C = $comb_rates_a3C;
-                  $data->total_a3C = $total_a3C;          
-              
-              }
-              }
-  
-              else{
-                  $rate_min_a3C =_smtblrateslab::where('iBillingID',$A3Ccounter_elapse->iMeterId)
-                      ->where('iToqty',$A3Cmin_vol->min_vol)
-                      ->select('frate')
-                      ->first();
-                  $total_min_a3C =($rate_min_a3C->frate * $A3Cmin_vol->min_vol);
-                  $rate_a3C =number_format($rate_min_a3C->frate,3);
-      
-                  $data->comb_rates_a3C = $rate_a3C;
-                  $data->total_a3C = $total_min_a3C;  
-  
-              }
-              }
-          }
-
+   
         //   SCAN CALCULATION 
 
         $scan_counter_elapse =DB::table('_smtblcounterelapsed')
@@ -1311,102 +1124,16 @@ class BillingExecutiveController extends Controller
         ->first();
 
    
-        if(!empty($scan_counter_elapse)){
-
-        $scan_min_vol = _smtblrateslab::where('iBillingID',$scan_counter_elapse->iMeterId ?? '')
-        ->select(DB::raw('min(iToqty) as min_vol'),'fRate')
-        ->groupBy('fRate',DB::raw('(iToqty)'))
-        ->first();
-
-        if($scan_min_vol->min_vol >=1000000){
-            $data->scan_min_vol = null;
-           }
-        else{
-            $data->scan_min_vol =$scan_min_vol->min_vol ?? null;
-        }
-        if( $scan_min_vol->min_vol  >=1000000 ){
-
-            $total_frate_scan =($scan_min_vol->fRate * $data->scnunit);
-            $rate_frate_scan =number_format($scan_min_vol->fRate,3);
-
-          
-
-            $data->comb_rates_scan = $rate_frate_scan;
-            $data->total_scan = $total_frate_scan;            
-
-
-        }
-
-        else{
-            $diff_scan = ($data->scnunit - $scan_min_vol->min_vol);
-            if($diff_scan > 0){
-                $rate_min_scan =_smtblrateslab::where('iBillingID',$scan_counter_elapse->iMeterId)
-                ->where('iToqty',$scan_min_vol->min_vol)
-                ->select('frate')
-                ->first();
-                $total_min_scan =($rate_min_scan->frate * $scan_min_vol->min_vol);
-
-                $rate_scan =number_format($rate_min_scan->frate,3);
-                
-                //slab two starts
-                $Increment_1_sc =$scan_min_vol->min_vol +1; 
-
-        
-            // we get the rate for the next slab and their readings
-            $next_slab_sn =_smtblrateslab::where('iBillingID',$scan_counter_elapse->iMeterId)
-            ->where('iFromQty','<=',$Increment_1_sc)
-            ->where('iToqty','>=',$Increment_1_sc)
-            ->select('iFromQty','iToqty','fRate')
-            ->first();
        
-                //  we get the difference of this slab
-            $diff_slab1_sn =($next_slab_sn->iToqty - $next_slab_sn->iFromQty)+1;
-
-
-            //  we check if the remainder fulls fall in this slab or exceed
-            $diff_bil_slab_sn =$diff_scan -$diff_slab1_sn;           
-
-           //counts fits fully in this slab the difference is negative
-            if($diff_bil_slab_sn < 0){
-                $total_slab_1_sn =($diff_scan * $next_slab_sn->fRate );
-
-                $rate_2_scan =number_format($next_slab_sn->fRate,3);            
-
-            // two slabs used             
-            $comb_rates_scan =$rate_scan.' | '.$rate_2_scan;
-            $total_scan =($total_slab_1_sn +$total_min_scan);
-
-            $data->comb_rates_scan = $comb_rates_scan;
-            $data->total_scan = $total_scan;          
-        
-        }
-        }
-
-        else{
-            $rate_min_scan =_smtblrateslab::where('iBillingID',$scan_counter_elapse->iMeterId)
-                ->where('iToqty',$scan_min_vol->min_vol)
-                ->select('frate')
-                ->first();
-            $total_min_scan =($rate_min_scan->frate * $scan_min_vol->min_vol);
-            $rate_scan =number_format($rate_min_scan->frate,3);
-
-            $data->comb_rates_scan = $rate_scan;
-            $data->total_scan = $total_min_scan;  
-
-        }
-        }
-        }
       
         
         $total_col = $data->total_color ?? '0';
-        $total_a3m = $data->total_a3m ?? '0';
-        $total_a3C = $data->total_a3C ?? '0';
-        $total_scan = $data->total_scan ?? '0'; 
         $rental_amt =$data->famount ?? '0';
-        $total_mono =$data->total ?? '0';       
+        $total_mono =$data->total ?? '0';   
+        $software_amt =$software->fAmount ?? 0;    
    
 
-        $total_inv_amt =  $total_mono + $total_col +$total_a3m +$total_a3C + $total_scan + $rental_amt;         
+        $total_inv_amt =  $total_mono + $total_col + $rental_amt +$software_amt;         
         $data->total_inv_amt =$total_inv_amt;           
 
        
@@ -1512,25 +1239,7 @@ class BillingExecutiveController extends Controller
    }
 
 
-//    public function slabs_rate(Request $request){
-//     if($request->ajax()){
 
-//         $billingID =$request->dataId;
-
-        
-
-//         $billing_rates = _smtblrateslab::where('iBillingID',$billingID)
-//         ->select('AutoIdx','iFromQty','iToqty','frate')
-//         ->get(); 
-
-//        return response()->json($billing_rates);
-
-
-
-//      }
-
-
-//  }
 
  public function slabs_rate_b(Request $request){
     if($request->ajax()){

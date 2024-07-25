@@ -15,6 +15,8 @@
         font-size: 12px;
         white-space: nowrap;
         background-color: #fff !important;
+        margin: 0px !important;
+        padding: 2px !important;
         }
         input[type='text']{
        font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -108,6 +110,7 @@ table{
     <th>Rates</th>
      
     <th scope="col">Rental</th>
+    <th scope="col">Software</th>
     <th scope="col">(J/S)</th>
     <th scope="col">Total Normal</th>
     
@@ -127,13 +130,14 @@ table{
     <td>{{ $data->assetdesc}}</td>
     <td><input type="text" class="monunit" style="font-weight:400; color:black;" value="{{ number_format($data->monunit)}}" readonly required   id="monunit"  size="8"></td>
     <td> <input type="text" class="min_mono_vol" style="font-weight:400; color:black;" value="{{ $data->min_mono_vol ?? 0}}" readonly required   id="min_mono_vol"  size="5"></td>
-    <td>{{$data->comb_rates}}</td>   
+    <td>{{$data->comb_rates ?? 0}}</td>   
     <td><input type="text" class="colunit" style="font-weight:400; color:black;" value="{{ number_format($data->colunit)}}" readonly required   id="colunit" name="colunit[]"  size="8"></td>
     <td><input type="text" class="min_color_vol" style="font-weight:400; color:black;" value="{{ number_format($data->min_color_vol ?? 0)}}" readonly required name="min_color_vol[]" id="min_color_vol"  size="7"></td>
     <td>{{ $data->comb_rates_color ?? 0}}</td> 
    
     <td><input type="text" name="rental_charges[]" readonly size="8" value="{{number_format($data->famount ?? '0',2)}}"></td>
-    <td><input type="text" class="billing_type" readonly style="font-weight:400; color:black;"  required value="J" name="billing_type[]" id="billing_type"  size="8"></td>
+    <td><input type="text" name="soft_charges[]" readonly size="8" value="{{number_format($data->software ?? '0',2)}}"></td>
+    <td><input type="text" class="billing_type" readonly style="font-weight:400; color:black;"  required value="{{$data->ulARJointSeparateBill}}" name="billing_type[]" id="billing_type"  size="8"></td>
     <td><input type="text"  name="total[]" class="total_nom" style="font-weight:400; color:black;" readonly value="{{number_format($data->total_inv_amt,2)}}" size="13"></td>
  
 
@@ -204,6 +208,7 @@ table{
    "bLengthChange": false,
  "bPaginate": false,
   "sScrollY": "300px", 
+  "sScrollX": "100px", 
 
  "searching": false,
   "columnDefs": [
@@ -237,6 +242,7 @@ table{
       value['rental_charges']  = $("input[name='rental_charges[]']").eq(index).val().replace(/,/g, "");
       value['billing_type']  = $("input[name='billing_type[]']").eq(index).val().replace(/,/g, "");
       value['colunit']  = $("input[name='colunit[]']").eq(index).val().replace(/,/g, "");
+      value['soft_charges']  = $("input[name='soft_charges[]']").eq(index).val().replace(/,/g, "");  
 
 
        

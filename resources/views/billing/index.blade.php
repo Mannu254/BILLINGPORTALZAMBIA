@@ -5,6 +5,9 @@
   .btn{
     font-family: 'Open Sans',sans-serif;
     font-size: 12px;
+    margin:0px !important;
+   
+   
 
   }
   table thead th{
@@ -62,7 +65,7 @@
   .twoToneButton,.clearAll{
     margin: 0px !important;
     height:31px;
-    margin:0px;
+   
   }
   .multiselect-container {
    /* margin-top:85px; */
@@ -77,10 +80,10 @@
 }
  button.multiselect.dropdown-toggle.btn.btn-default {
     border: 1px solid;
-    margin:0px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin:0px !important;
 }
 input {
   border-top-style: hidden;
@@ -96,13 +99,16 @@ input {
 table{
   width: 100%;
 }
+.card{
+  height: 60px;
+}
 </style>
 <div class="container-fluid position-fixed">
 <div class="card" style="background-color:lightgrey">
 <div class="card-body">
  
 <div class="row">
-<div class="input-group col-md-7" >
+<div class="form-group" >
 <select class="form-control form-control-sm dropdown" style="z-index: 1000" id="customer_id" name="customer_id[]"  multiple="multiple">
 @foreach ($clients as $customer)
 <option value="{{$customer->DCLink}}" style="z-index: 1000 !important; position:absolute;">{{$customer->Account}}-{{$customer->Name}}</option>
@@ -113,10 +119,10 @@ table{
 
 
 
-  <div class="input-group mb col-md-2">
-  <button type="button" id="customer_get" class="btn btn-primary btn btn-block twoToneButton"> <i class="fa fa-lg fa-refresh"></i>   Get Selected Customer List</button>
+  <div class="input-group mb col-md-3">
+  <button type="button" id="customer_get" class="btn btn-primary btn btn-block twoToneButton"> <i class="fa fa-lg fa-refresh"></i>  Get Selected Customer List (Monthly)</button>
   </div>
-  <div class="input-group mb col-md-2 ml-auto">
+  <div class="input-group mb-5 col-md-2 ml-auto">
     <input type="" class="form-control form-control year"  id="datepicker2" value="" placeholder="Set Billing Month Date" required name="billing_date">
     </div>
   
@@ -133,14 +139,14 @@ table{
 </div>
 </div>
 </div>
-<br><br><br>
+<br><br>
 <hr>
 <div class="container-fluid">
   <form action="{{action('BillingExecutiveController@meter_reading_review')}}" method="get">
     {{ csrf_field() }}
     <div class="container-fluid" style="width: 160px;">
     <div class="input-group">
-    <input type="" class="form-control form-control-sm" readonly id="" value="{{$session->session_date ?? ''}}" placeholder="Select Billing Date" required name="billing_date">
+    <input type="" class="form-control form-control-sm" style="text-align: center;color:chartreuse;background-color:black" readonly id="" value="{{$session->session_date ?? ''}}" placeholder="Select Billing Date" required name="billing_date">
     </div></div>
       
 

@@ -92,6 +92,35 @@
 h6{
     margin-left: 5px;
 }
+.multiselect-container {
+   /* margin-top:85px; */
+   position: fixed;
+  width: 100% !important;
+  font-size: 12px;
+  
+ }
+ button.multiselect {
+  background-color: initial;
+  border: 1px solid #ced4da;
+}
+ button.multiselect.dropdown-toggle.btn.btn-default {
+    border: 1px solid;
+    margin:0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+input {
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  border-bottom-style: hidden;  
+  background-color: #eee;
+}
+
+.no-outline:focus {
+  outline: none;
+}
 
 
 
@@ -109,17 +138,18 @@ h6{
         </div>
 
     <div class="row">
-        <div class="form-group mb-5 col-md-6">
-        <select class="form-control form-control-xs selectpicker"   id="customer_id" name="customer_id" data-live-search="true" data-title="Select Customer" id="state_list">
+      <div class="input-group col-md-6" >
+        <select class="form-control form-control-sm dropdown" style="z-index: 1000" id="customer_id" name="customer_id[]"  multiple="multiple">
         @foreach ($clients as $customer)
-        <option value="{{$customer->DCLink}}">{{$customer->Account}}-{{$customer->Name}}</option>
+        <option value="{{$customer->DCLink}}" style="z-index: 1000 !important;">{{$customer->Account}}-{{$customer->Name}}</option>
         @endforeach 
         </select>
-        </div>        
+        <button class='clearAll btn btn-primary btn-xs'><i class="fa fa-lg fa-times-circle"></i></button>
+        </div>       
         
 
         
-            <div class="input-group mb-5 col-md-2">
+            <div class="input-group mb-0 col-md-2">
                 <input type="text" required placeholder="Select Month and Year" id="datepicker" name="date_month" class="form-control date_month">
                 </div>
         
@@ -146,13 +176,44 @@ $("#datepicker").datepicker( {
     defaultDate: new Date()
 });
 </script>
+<script>
+  $(document).ready(function(){
+  $('#customer_id').multiselect({
+  nonSelectedText: 'Select Customers', 
+  // enableFiltering: true,
+  enableCaseInsensitiveFiltering: true,
+  buttonWidth:'600px',
+  maxHeight:450,
+  includeFilterClearBtn:true, 
+  
+  });
+  });
+  </script>
 
-<script type="application/javascript">
-    $('input[type="file"]').change(function(e){
-    var fileName = e.target.files[0].name;
-    $('.custom-file-label').html(fileName);
+  
+  <script>
+    $('.clearAll').on('click', function() {
+    $("#customer_id").multiselect("clearSelection");
     });
-</script>
+  </script>
+
+
+<script>
+  $(document).ready(function(){ 
+  $("#datepicker").datepicker({
+
+  changeMonth:true,
+  changeYear:true,
+  showOn: "button",
+  buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+  buttonImageOnly: true,
+  defaultDate: new Date()
+})
+
+
+
+});
+</script> 
 
 
 
@@ -187,11 +248,13 @@ $("#datepicker").datepicker( {
     },
    
 success: function (response) {
+
+  
     var link = document.createElement('a');
         link.href = window.URL.createObjectURL(response);
-        link.download = `SummarySheet.xlsx`;
+        link.download = `SummarySheet.pdf`;
         link.click();
-        window.location.reload();
+        
     },
     error: function (request, status, error) {
         alert('Error!! in Summary Sheet Export Contact Administrator');

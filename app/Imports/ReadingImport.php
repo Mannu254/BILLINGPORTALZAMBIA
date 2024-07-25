@@ -74,12 +74,12 @@ class ReadingImport implements ToCollection,WithStartRow,WithValidation,SkipsEmp
             'mode_collection'    => $row[8],             
             'mono_cmr'           => $row[9] ?? 0,
             'color_cmr'          => $row[10] ?? 0,
-            'copies_mono'        =>$row[11] ?? 0,
-            'copies_col'         =>$row[12] ?? 0,
-            'a3mono_cmr'         => $row[13] ?? 0, 
-            'a3color_cmr'        => $row[14] ?? 0,  
-            'scan_cmr'           => $row[15]?? 0,  
-            'remarks'            => $row[16],  
+            'copies_mono'        =>0,
+            'copies_col'         =>0,
+            'a3mono_cmr'         => 0, 
+            'a3color_cmr'        => 0,  
+            'scan_cmr'           => 0,  
+            'remarks'            => '',  
             'user_id'           => Auth::user()->id,
            
             ]);
@@ -105,11 +105,7 @@ class ReadingImport implements ToCollection,WithStartRow,WithValidation,SkipsEmp
                       
              '*.9' => 'numeric|nullable',
              '*.10' => 'numeric|nullable',
-             '*.11' => 'numeric|nullable',
-             '*.12' => 'numeric|nullable',
-             '*.13' => 'numeric|nullable',
-             '*.14' => 'numeric|nullable',
-             '*.15' => 'numeric|nullable',
+            
             
                  
         ];

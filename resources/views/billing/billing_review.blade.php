@@ -80,9 +80,9 @@ table{
   
       <input type="text" id="billing_date" name="billing_date" hidden value="{{$today}}">
        
-  <table id="table" class="table table-hover table-bordered table-sm text-center">
+  <table id="table" class="table table-hover table-bordered table-sm text-center" style="width: 100%">
     <thead style="background-color:#00BFFF;">
-      <tr style="font-family:apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"><th colspan="6"></th><th colspan="3">MONO</th><th colspan="3">COLOR</th><th colspan="5"></th></tr>
+      <tr style="font-family:apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;"><th colspan="7"></th><th colspan="3">MONO</th><th colspan="3">COLOR</th><th colspan="5"></th></tr>
     <tr>
    
     <th class="fixed" scope="col">Customer Name</th>
@@ -91,23 +91,13 @@ table{
     <th class="fixed" disabled scope="col">Billed Asset</th>
     <th class="fixed"scope="col">Description</th>
     <th scope="col">Rental</th>
+    <th scope="col">Software</th>
     <th scope="col">Units</th>
     <th scope="col">MinVol</th>
     <th>Rates</th>
     <th scope="col">Units</th>
     <th scope="col">MinVol</th>
-    <th>Rates</th>
-{{-- 
-    <th scope="col">Units</th>
-    <th scope="col">MinVol</th>
-    <th>Rates</th>
-    <th scope="col">Units</th>
-    <th scope="col">MinVol</th>
-    <th>Rates</th> --}}
-
-
-      
-    
+    <th>Rates</th>   
     <th scope="col">(J/S)</th>
     <th scope="col">Total Amount</th>
     <th scope="col">OrderNum Generated</th>
@@ -125,6 +115,7 @@ table{
     <td><input type="text" class="ucSABillingAsset" style="font-weight:400; color:black;" value="{{ $data->billingasset}}" readonly required  name="ucSABillingAsset[]" id="ucSABillingAsset"  size="15"></td>
     <td>{{ $data->assetdesc}}</td>
     <td><input type="text" name="rental_charges[]" readonly size="8" value="{{number_format($data->famount ?? '0',2)}}"></td>
+    <td><input type="text" name="soft_charges[]" readonly size="8" value="{{number_format($data->software ?? '0',2)}}"></td>
     <td><input type="text" class="monunit" style="font-weight:400; color:black;" value="{{ number_format($data->monunit)}}" readonly required   id="monunit"  size="8"></td>
     <td> <input type="text" class="min_mono_vol" style="font-weight:400; color:black;" value="{{ $data->min_mono_vol ?? 0}}" readonly required   id="min_mono_vol"  size="5"></td>
     <td>{{$data->comb_rates ?? ''}}</td>   
@@ -133,7 +124,7 @@ table{
     <td>{{ $data->comb_rates_color ?? 0}}</td> 
    
    
-    <td><input type="text" class="billing_type" onkeyup="format(this)" style="font-weight:400; color:black;" readonly  required value="J" name="billing_type[]" id="billing_type"  size="5"></td>
+    <td><input type="text" class="billing_type" onkeyup="format(this)" style="font-weight:400; color:black;" readonly  required value="{{$data->ulARJointSeparateBill}}" name="billing_type[]" id="billing_type"  size="5"></td>
     <td><input  name="total[]" class="total" style="font-weight:400; color:black;" value="{{number_format($data->total_inv_amt,2)}}" size="10"></td>
    <td><input type="text" class="order_generated"  style="font-weight:400; color:chartreuse;" value="{{$data->OrderNum ?? ''}}"  name="order_generated[]" readonly id="order_generated"  size=""><input hidden type="checkbox" id="order_num" checked onclick="return false;" class="order_num" name="order_num[]"  value="{{$data->OrderNum ?? ''}}"> <input hidden type="checkbox" id="cust_code" checked onclick="return false;" class="cust_code" name="cust_code[]"  value="{{$data->account ?? ''}}">  <input hidden type="text" id="check_if_done"  class="check_if_done" name="check_if_done"  value="{{$data->check_if_done ?? 0}}"></td>
     </tr>    
@@ -200,6 +191,8 @@ table{
    "bLengthChange": false,
  "bPaginate": false,
   "sScrollY": "320px", 
+  "sScrollX": "100px", 
+
  
  "searching": false,
   "columnDefs": [
@@ -232,7 +225,7 @@ table{
       value['rental_charges']  = $("input[name='rental_charges[]']").eq(index).val().replace(/,/g, "");
       value['billing_type']  = $("input[name='billing_type[]']").eq(index).val().replace(/,/g, "");
       value['colunit']  = $("input[name='colunit[]']").eq(index).val().replace(/,/g, "");
-      value['total']  = $("input[name='total[]']").eq(index).val().replace(/,/g, "");      
+      value['soft_charges']  = $("input[name='soft_charges[]']").eq(index).val().replace(/,/g, "");      
 
     values.push(value);  
 
