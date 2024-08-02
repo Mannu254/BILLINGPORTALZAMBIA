@@ -8,7 +8,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 
-<title>{{config('app.name', 'MFI-BUSINESS_PLAN-PORTAL') }}</title>
+<title>{{config('app.name', 'BILLING PORTAL ZAMBIA') }}</title>
 
 <!-- Scripts -->
 <script src="{{ asset('/js/app.js')}}"></script>  
@@ -41,7 +41,7 @@
 <nav class="navbar navbar-expand-md navbarhome2 navbar-light bg-white shadow-sm">
 <div class="container">
 <a class="navbar-brand" href="{{ url('/billing') }}">
-    {{ config('app.name', 'MFI-BILLING-PORTAL') }}
+    {{ config('app.name', 'BILLING-PORTAL-ZAMBIA') }}
 </a>
 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
     <span class="navbar-toggler-icon"></span>

@@ -210,7 +210,6 @@ class AdvancedBillingController extends Controller
 
 
         if(empty($current_readings)){
-
             $current_readings_db  = DB::table('monthlyreadings')
             ->where('monthlyreadings.serial_no',$machine->ucSASerialNo)
             ->whereYear('reading_date', '=', $today_current->year)
@@ -291,7 +290,7 @@ class AdvancedBillingController extends Controller
           where cFieldName='ulIDSOrdOrderType' and cTableName='InvNum') AS uhl"),'uhl.TableId','=','InvNum.AutoIndex')
           ->select('OrderNum')
           ->first();
-          // dd($get_order_number);
+          //  dd($get_order_number);
 
           //check if there is a wrongly MR invoice created
           $data->OrderNum =$get_order_number->OrderNum ?? null;   
@@ -867,7 +866,7 @@ class AdvancedBillingController extends Controller
         if($billing_type =='J' && $con_asset ){              
                   
           $check_if_done =DB::table('client as cl')
-          ->select('cl.DCLink','cl.name','cl.account','cl.udARContractStartDate','inv.autoindex','inv.orderdate','inv.accountid',DB::raw('COUNT(inv.accountid) as idcount'),'inv.AutoIndex') 
+          ->select('cl.DCLink','cl.name','cl.account','inv.autoindex','inv.orderdate','inv.accountid',DB::raw('COUNT(inv.accountid) as idcount'),'inv.AutoIndex') 
           ->where('uhl.UserValue', '=','MR')           
           ->where('inv.doctype', '=',4)          
           ->whereYear('inv.orderdate', '=', $today->year)
@@ -877,7 +876,7 @@ class AdvancedBillingController extends Controller
           ->join(DB::raw("(select  _etblUserHistLink.* from _etblUserHistLink
             join _rtbluserdict on userdictid=iduserdict
           where cFieldName='ulIDSOrdOrderType' and cTableName='InvNum') AS uhl"),'uhl.TableId','=','inv.autoindex')
-          ->groupBy('cl.DCLink','cl.name','cl.account','cl.udARContractStartDate','inv.orderdate','inv.accountid','inv.AutoIndex')
+          ->groupBy('cl.DCLink','cl.name','cl.account','inv.orderdate','inv.accountid','inv.AutoIndex')
           ->first();
          
   
@@ -916,7 +915,7 @@ class AdvancedBillingController extends Controller
         //get po number
       //get po number
       $po_number =DB::table('OrdersDf')
-      ->where('DefaultCounter',101000000)
+      ->where('DefaultCounter',1)
       ->select('OrderPrefix','DNoPadLgth','NextCustNo')
       ->first();
 
@@ -924,7 +923,7 @@ class AdvancedBillingController extends Controller
       
 
       $update =DB::table('OrdersDf')
-      ->where('DefaultCounter',101000000)
+      ->where('DefaultCounter',1)
       ->update([
       'NextCustNo' => $po_number->NextCustNo +1
      ]);
@@ -1149,7 +1148,7 @@ class AdvancedBillingController extends Controller
 
       $update_udf =DB::table('_etblUserHistLink')
       ->insert([
-     'userdictid' => 101000037,
+     'userdictid' => 57,
      'Tableid' => $invoice_id,
      'UserValue' => 'MR'       
     ]);
@@ -1226,6 +1225,8 @@ class AdvancedBillingController extends Controller
     //  Get exchangerate
     
     $today=Carbon::parse($request->billing_date);
+
+   
     
     $echange_rate =DB::table('currencyhist')
     ->select('fbuyrate')
@@ -1410,7 +1411,7 @@ class AdvancedBillingController extends Controller
         $_btblInvoiceLines->cTradeinItem='';
         $_btblInvoiceLines->iStockCodeID=$tstockid; 
         $_btblInvoiceLines->iJobID=0;
-        $_btblInvoiceLines->iWarehouseID=6;
+        $_btblInvoiceLines->iWarehouseID=4;
         $_btblInvoiceLines->iTaxTypeID=$customer_details->ideftaxtypeid;
         $_btblInvoiceLines->iPriceListNameID=1;
         $_btblInvoiceLines->fQuantityLineTotIncl=$tlineamtincl;
@@ -1526,7 +1527,7 @@ class AdvancedBillingController extends Controller
         $_btblInvoiceLines->fQtyLinkedUsedUR=0;
         $_btblInvoiceLines->iPiecesLinkedUsed=0;
         $_btblInvoiceLines->iSalesWhseID=0;
-        $_btblInvoiceLines->_btblInvoiceLines_iBranchID=1;
+        $_btblInvoiceLines->_btblInvoiceLines_iBranchID=0;
         $_btblInvoiceLines->udIDSOrdTxCMReadingDate=$today;
         $_btblInvoiceLines->uiIDSOrdTxCMPrevReading=$t_mon_pmr;
         $_btblInvoiceLines->uiIDSOrdTxCMCurrReading=$t_mono_cmr;
@@ -1657,7 +1658,7 @@ class AdvancedBillingController extends Controller
         $_btblInvoiceLines->cTradeinItem='';
         $_btblInvoiceLines->iStockCodeID=$tstockid; 
         $_btblInvoiceLines->iJobID=0;
-        $_btblInvoiceLines->iWarehouseID=6;
+        $_btblInvoiceLines->iWarehouseID=4;
         $_btblInvoiceLines->iTaxTypeID=$customer_details->ideftaxtypeid;
         $_btblInvoiceLines->iPriceListNameID=1;
         $_btblInvoiceLines->fQuantityLineTotIncl=$tlineamtincl;
@@ -1773,7 +1774,7 @@ class AdvancedBillingController extends Controller
         $_btblInvoiceLines->fQtyLinkedUsedUR=0;
         $_btblInvoiceLines->iPiecesLinkedUsed=0;
         $_btblInvoiceLines->iSalesWhseID=0;
-        $_btblInvoiceLines->_btblInvoiceLines_iBranchID=1;
+        $_btblInvoiceLines->_btblInvoiceLines_iBranchID=0;
         $_btblInvoiceLines->udIDSOrdTxCMReadingDate=$today;
         $_btblInvoiceLines->uiIDSOrdTxCMPrevReading=$t_mon_pmr;
         $_btblInvoiceLines->uiIDSOrdTxCMCurrReading=$t_mono_cmr;
@@ -2032,7 +2033,7 @@ class AdvancedBillingController extends Controller
          $_btblInvoiceLines->cTradeinItem='';
          $_btblInvoiceLines->iStockCodeID=$tstockid; 
          $_btblInvoiceLines->iJobID=0;
-         $_btblInvoiceLines->iWarehouseID=6;
+         $_btblInvoiceLines->iWarehouseID=4;
          $_btblInvoiceLines->iTaxTypeID=$customer_details->ideftaxtypeid;
          $_btblInvoiceLines->iPriceListNameID=1;
          $_btblInvoiceLines->fQuantityLineTotIncl=$tlineamtincl;
@@ -2346,7 +2347,7 @@ class AdvancedBillingController extends Controller
        $_btblInvoiceLines_color->cTradeinItem='';
        $_btblInvoiceLines_color->iStockCodeID=$tstockid; 
        $_btblInvoiceLines_color->iJobID=0;
-       $_btblInvoiceLines_color->iWarehouseID=6;
+       $_btblInvoiceLines_color->iWarehouseID=4;
        $_btblInvoiceLines_color->iTaxTypeID=$customer_details->ideftaxtypeid;
        $_btblInvoiceLines_color->iPriceListNameID=1;
        $_btblInvoiceLines_color->fQuantityLineTotIncl=$tlineamtincl;
@@ -2586,7 +2587,7 @@ class AdvancedBillingController extends Controller
        $_btblInvoiceLines_color->cTradeinItem='';
        $_btblInvoiceLines_color->iStockCodeID=$tstockid; 
        $_btblInvoiceLines_color->iJobID=0;
-       $_btblInvoiceLines_color->iWarehouseID=6;
+       $_btblInvoiceLines_color->iWarehouseID=4;
        $_btblInvoiceLines_color->iTaxTypeID=$customer_details->ideftaxtypeid;
        $_btblInvoiceLines_color->iPriceListNameID=1;
        $_btblInvoiceLines_color->fQuantityLineTotIncl=$tlineamtincl;
@@ -2982,7 +2983,7 @@ class AdvancedBillingController extends Controller
          $_btblInvoiceLines_color->cTradeinItem='';
          $_btblInvoiceLines_color->iStockCodeID=$tstockid; 
          $_btblInvoiceLines_color->iJobID=0;
-         $_btblInvoiceLines_color->iWarehouseID=6;
+         $_btblInvoiceLines_color->iWarehouseID=4;
          $_btblInvoiceLines_color->iTaxTypeID=$customer_details->ideftaxtypeid;
          $_btblInvoiceLines_color->iPriceListNameID=1;
          $_btblInvoiceLines_color->fQuantityLineTotIncl=$tlineamtincl;
@@ -3207,7 +3208,7 @@ class AdvancedBillingController extends Controller
           $_btblInvoiceLines_rental->cTradeinItem='';
           $_btblInvoiceLines_rental->iStockCodeID=$tstockid; 
           $_btblInvoiceLines_rental->iJobID=0;
-          $_btblInvoiceLines_rental->iWarehouseID=6;
+          $_btblInvoiceLines_rental->iWarehouseID=4;
           $_btblInvoiceLines_rental->iTaxTypeID=$customer_details->ideftaxtypeid;
           $_btblInvoiceLines_rental->iPriceListNameID=1;
           $_btblInvoiceLines_rental->fQuantityLineTotIncl=$tlineamtincl;
@@ -3418,7 +3419,7 @@ if($software > 0){
   $_btblInvoiceLines_software->cTradeinItem='';
   $_btblInvoiceLines_software->iStockCodeID=$tstockid; 
   $_btblInvoiceLines_software->iJobID=0;
-  $_btblInvoiceLines_software->iWarehouseID=6;
+  $_btblInvoiceLines_software->iWarehouseID=4;
   $_btblInvoiceLines_software->iTaxTypeID=$customer_details->ideftaxtypeid;
   $_btblInvoiceLines_software->iPriceListNameID=1;
   $_btblInvoiceLines_software->fQuantityLineTotIncl=$tlineamtincl;
@@ -3533,7 +3534,7 @@ if($software > 0){
   $_btblInvoiceLines_software->fQtyLinkedUsedUR=0;
   $_btblInvoiceLines_software->iPiecesLinkedUsed=0;
   $_btblInvoiceLines_software->iSalesWhseID=0;
-  $_btblInvoiceLines_software->_btblInvoiceLines_iBranchID=1;
+  $_btblInvoiceLines_software->_btblInvoiceLines_iBranchID=0;
   $_btblInvoiceLines_software->udIDSOrdTxCMReadingDate='';
   $_btblInvoiceLines_software->uiIDSOrdTxCMPrevReading='';
   $_btblInvoiceLines_software->uiIDSOrdTxCMCurrReading='';
@@ -3545,6 +3546,397 @@ if($software > 0){
   $_btblInvoiceLines_software->save();
 
 }  
+
+  // individual items mono
+  $tlineamtexcl_indv = 0;
+  $tlineamttax = 0;
+  $tlineamtincl_indv = 0;
+  $tfclineamtexcl_indv = 0;
+  $tfclineamttax_indv = 0;
+  $tfclineamtincl_indv = 0;
+  $tlinenote_indv = "";
+  $tlinedesc_indv = "";
+  $tstockid_ind = 28587;
+  $tvolstr = "";
+  $tratestr = "";
+
+$individual_mono_consolidated = DB::table('_bvARAccountsFull As cl')
+->where('DCLink',$customer_details->dclink)
+->where('sa.ucSABillingAsset', '=',$value['ucSABillingAsset']) 
+->whereYear('ReadingDate', '=', $today->year)
+->whereMonth('ReadingDate', '=', $today->month)
+
+->select('cl.name','cl.account','cl.currencycode','cl.ulARJointSeparateBill','sa.ucSABillingAsset','cmr.moncmr','cmr.monpmr','sa.cDescription','sa.ucSASerialNo')
+->join('_smtblServiceAsset As sa', 'cl.DCLink', '=', 'sa.icustomerid')  
+->join('_cplmeterreading As cmr', 'sa.autoidx', '=', 'cmr.assetid')     
+->get();
+
+
+ foreach($individual_mono_consolidated as $data){
+
+ $_btblInvoiceLines_indv = new _btblInvoiceLines;
+ $_btblInvoiceLines_indv->iInvoiceID =$invoice_id;
+ $_btblInvoiceLines_indv->iOrigLineID =0;
+ $_btblInvoiceLines_indv->iGrvLineID =0;
+ $_btblInvoiceLines_indv->iLineDocketMode =0; 
+ $_btblInvoiceLines_indv->cDescription =$data->cDescription; 
+ $_btblInvoiceLines_indv->iUnitsOfMeasureStockingID=0; 
+ $_btblInvoiceLines_indv->iUnitsOfMeasureCategoryID=0;
+ $_btblInvoiceLines_indv->iUnitsOfMeasureID=0;
+ $_btblInvoiceLines_indv->fQuantity=1;
+ $_btblInvoiceLines_indv->fQtyChange=1;
+ $_btblInvoiceLines_indv->fQtyToProcess=1; 
+ $_btblInvoiceLines_indv->fQtyLastProcess=0; 
+ $_btblInvoiceLines_indv->fQtyProcessed =0; 
+ $_btblInvoiceLines_indv->fQtyReserved=0; 
+ $_btblInvoiceLines_indv->fQtyReservedChange =0;
+ $_btblInvoiceLines_indv->cLineNotes=$tlinenote_indv; 
+ $_btblInvoiceLines_indv->fUnitPriceExcl=$tlineamtexcl_indv; 
+ $_btblInvoiceLines_indv->fUnitPriceIncl=$tlineamtincl_indv;
+ $_btblInvoiceLines_indv->iUnitPriceOverrideReasonID=0; 
+ $_btblInvoiceLines_indv->fUnitCost=0;
+ $_btblInvoiceLines_indv->fLineDiscount=0; 
+ $_btblInvoiceLines_indv->iLineDiscountReasonID=0;
+ $_btblInvoiceLines_indv->iReturnReasonID=0; 
+ $_btblInvoiceLines_indv->fTaxRate=$tax_rate->TaxRate; 
+ $_btblInvoiceLines_indv->bIsSerialItem=0; 
+ $_btblInvoiceLines_indv->bIsWhseItem=1;
+ $_btblInvoiceLines_indv->fAddCost=0; 
+ $_btblInvoiceLines_indv->cTradeinItem='';
+ $_btblInvoiceLines_indv->iStockCodeID=$tstockid_ind; 
+ $_btblInvoiceLines_indv->iJobID=0;
+ $_btblInvoiceLines_indv->iWarehouseID=4;
+ $_btblInvoiceLines_indv->iTaxTypeID=$customer_details->ideftaxtypeid;
+ $_btblInvoiceLines_indv->iPriceListNameID=1;
+ $_btblInvoiceLines_indv->fQuantityLineTotIncl=$tlineamtincl_indv;
+ $_btblInvoiceLines_indv->fQuantityLineTotExcl=$tlineamtexcl_indv;
+ $_btblInvoiceLines_indv->fQuantityLineTotInclNoDisc=$tlineamtincl_indv;
+ $_btblInvoiceLines_indv->fQuantityLineTotExclNoDisc =$tlineamtexcl_indv; 
+ $_btblInvoiceLines_indv->fQuantityLineTaxAmount =0; 
+ $_btblInvoiceLines_indv->fQuantityLineTaxAmountNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotIncl =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotExcl =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotInclNoDisc =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotExclNoDisc =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTaxAmount =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountNoDisc =0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotIncl =0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotExcl =0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotInclNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotExclNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmount =0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountNoDisc =0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotIncl=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotExcl =0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclNoDisc=0;
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclNoDisc=0;
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmount=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotIncl=0;
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotExcl=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotInclNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotExclNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmount=0;
+ $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountNoDisc=0; 
+ $_btblInvoiceLines_indv->fUnitPriceExclForeign=0; 
+ $_btblInvoiceLines_indv->fUnitPriceInclForeign=0; 
+ $_btblInvoiceLines_indv->fUnitCostForeign=0;
+ $_btblInvoiceLines_indv->fAddCostForeign=0;
+ $_btblInvoiceLines_indv->fQuantityLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQuantityLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQuantityLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQuantityLineTotExclNoDiscForeign=0;      
+ $_btblInvoiceLines_indv->fQuantityLineTaxAmountForeign=0; 
+ $_btblInvoiceLines_indv->fQuantityLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotExclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountForeign=0;
+ $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotExclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotExclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->iLineRepID=$customer_details->repid; 
+ $_btblInvoiceLines_indv->iLineProjectID=2; 
+ $_btblInvoiceLines_indv->iLedgerAccountID=0; 
+ $_btblInvoiceLines_indv->IModule=0;
+ $_btblInvoiceLines_indv->bChargeCom=1;
+ $_btblInvoiceLines_indv->bIsLotItem=0;
+//  $_btblInvoiceLines_indv->iLotID=0;
+//  $_btblInvoiceLines_indv->cLotNumber='';
+//  $_btblInvoiceLines_indv->dLotExpiryDate=null;
+ $_btblInvoiceLines_indv->iMFPID=0;
+ $_btblInvoiceLines_indv->iLineID=1;
+ $_btblInvoiceLines_indv->iLinkedLineID=0;
+ $_btblInvoiceLines_indv->fQtyLinkedUsed=null;
+ $_btblInvoiceLines_indv->fUnitPriceInclOrig=null;
+ $_btblInvoiceLines_indv->fUnitPriceExclOrig=Null;
+ $_btblInvoiceLines_indv->fUnitPriceInclForeignOrig=Null;
+ $_btblInvoiceLines_indv->fUnitPriceExclForeignOrig=0;
+ $_btblInvoiceLines_indv->iDeliveryMethodID=0;
+ $_btblInvoiceLines_indv->fQtyDeliver=0;
+ $_btblInvoiceLines_indv->dDeliveryDate=$today;
+ $_btblInvoiceLines_indv->iDeliveryStatus=0;
+ $_btblInvoiceLines_indv->fQtyForDelivery=0;
+ $_btblInvoiceLines_indv->bPromotionApplied=0;
+ $_btblInvoiceLines_indv->fPromotionPriceExcl=0;
+ $_btblInvoiceLines_indv->fPromotionPriceIncl=0;
+ $_btblInvoiceLines_indv->cPromotionCode=0;
+ $_btblInvoiceLines_indv->iSOLinkedPOLineID=0;
+ $_btblInvoiceLines_indv->fLength=0;
+ $_btblInvoiceLines_indv->fWidth=0;
+ $_btblInvoiceLines_indv->fHeight=0;
+ $_btblInvoiceLines_indv->iPieces=0;
+ $_btblInvoiceLines_indv->iPiecesToProcess=0;
+ $_btblInvoiceLines_indv->iPiecesLastProcess=0;
+ $_btblInvoiceLines_indv->iPiecesProcessed=0;
+ $_btblInvoiceLines_indv->iPiecesReserved=0;
+ $_btblInvoiceLines_indv->iPiecesDeliver=0;
+ $_btblInvoiceLines_indv->iPiecesForDelivery=0;
+ $_btblInvoiceLines_indv->fQuantityUR=1;
+ $_btblInvoiceLines_indv->fQtyChangeUR=1;
+ $_btblInvoiceLines_indv->fQtyToProcessUR=1;
+ $_btblInvoiceLines_indv->fQtyLastProcessUR=0;
+ $_btblInvoiceLines_indv->fQtyProcessedUR=0;
+ $_btblInvoiceLines_indv->fQtyReservedUR=0;
+ $_btblInvoiceLines_indv->fQtyReservedChangeUR=0;
+ $_btblInvoiceLines_indv->fQtyDeliverUR=0;
+ $_btblInvoiceLines_indv->fQtyForDeliveryUR=0;
+ $_btblInvoiceLines_indv->fQtyLinkedUsedUR=0;
+ $_btblInvoiceLines_indv->iPiecesLinkedUsed=0;
+ $_btblInvoiceLines_indv->iSalesWhseID=0;
+ $_btblInvoiceLines_indv->_btblInvoiceLines_iBranchID=0;
+ $_btblInvoiceLines_indv->udIDSOrdTxCMReadingDate='';
+ $_btblInvoiceLines_indv->uiIDSOrdTxCMPrevReading=$data->monpmr;
+ $_btblInvoiceLines_indv->uiIDSOrdTxCMCurrReading=$data->moncmr;
+ $_btblInvoiceLines_indv->ucIDSOrdTxCMMinVol='';
+ $_btblInvoiceLines_indv->ucIDSOrdTxCMRates='';
+ $_btblInvoiceLines_indv->ucIDSOrdTxCMServiceAsset=$data->ucSASerialNo;
+ $_btblInvoiceLines_indv->ucIDSOrdTxCMMeterType="BILLMON"; 
+ $_btblInvoiceLines_indv->save();
+
+//  individual color
+
+
+ $individual_color_consolidated = DB::table('_bvARAccountsFull As cl')
+ ->where('DCLink',$customer_details->dclink)
+ ->where('sa.ucSASerialNo',$data->ucSASerialNo)
+ ->Where(function($query)
+ {
+  $query->where('cmr.colcmr','!=','')
+        ->orwhere('cmr.colpmr','!=','');
+       
+
+    
+ })
+ ->where('sa.ucSABillingAsset', '=',$value['ucSABillingAsset']) 
+ ->whereYear('ReadingDate', '=', $today->year)
+ ->whereMonth('ReadingDate', '=', $today->month)
+ 
+
+ ->select('cl.name','cl.account','cl.currencycode','cl.ulARJointSeparateBill','sa.ucSABillingAsset','cmr.colcmr','cmr.colpmr','sa.cDescription','sa.ucSASerialNo')
+ ->join('_smtblServiceAsset As sa', 'cl.DCLink', '=', 'sa.icustomerid')  
+ ->join('_cplmeterreading As cmr', 'sa.autoidx', '=', 'cmr.assetid')  
+      
+ ->first();
+
+
+
+  if(!empty($individual_color_consolidated)){             
+
+  $tlineamtexcl_indv = 0;
+  $tlineamttax = 0;
+  $tlineamtincl_indv = 0;
+  $tfclineamtexcl_indv = 0;
+  $tfclineamttax_indv = 0;
+  $tfclineamtincl_indv = 0;
+  $tlinenote_indv = "";
+  $tlinedesc_indv = "";
+  $tstockid_ind = 28587;
+  $tvolstr = "";
+  $tratestr = "";
+
+
+  $_btblInvoiceLines_indv = new _btblInvoiceLines;
+  $_btblInvoiceLines_indv->iInvoiceID =$invoice_id;
+  $_btblInvoiceLines_indv->iOrigLineID =0;
+  $_btblInvoiceLines_indv->iGrvLineID =0;
+  $_btblInvoiceLines_indv->iLineDocketMode =0; 
+  $_btblInvoiceLines_indv->cDescription =$individual_color_consolidated->cDescription; 
+  $_btblInvoiceLines_indv->iUnitsOfMeasureStockingID=0; 
+  $_btblInvoiceLines_indv->iUnitsOfMeasureCategoryID=0;
+  $_btblInvoiceLines_indv->iUnitsOfMeasureID=0;
+  $_btblInvoiceLines_indv->fQuantity=1;
+  $_btblInvoiceLines_indv->fQtyChange=1;
+  $_btblInvoiceLines_indv->fQtyToProcess=1; 
+  $_btblInvoiceLines_indv->fQtyLastProcess=0; 
+  $_btblInvoiceLines_indv->fQtyProcessed =0; 
+  $_btblInvoiceLines_indv->fQtyReserved=0; 
+  $_btblInvoiceLines_indv->fQtyReservedChange =0;
+  $_btblInvoiceLines_indv->cLineNotes=$tlinenote_indv; 
+  $_btblInvoiceLines_indv->fUnitPriceExcl=$tlineamtexcl_indv; 
+  $_btblInvoiceLines_indv->fUnitPriceIncl=$tlineamtincl_indv;
+  $_btblInvoiceLines_indv->iUnitPriceOverrideReasonID=0; 
+  $_btblInvoiceLines_indv->fUnitCost=0;
+  $_btblInvoiceLines_indv->fLineDiscount=0; 
+  $_btblInvoiceLines_indv->iLineDiscountReasonID=0;
+  $_btblInvoiceLines_indv->iReturnReasonID=0; 
+  $_btblInvoiceLines_indv->fTaxRate=$tax_rate->TaxRate; 
+  $_btblInvoiceLines_indv->bIsSerialItem=0; 
+  $_btblInvoiceLines_indv->bIsWhseItem=1;
+  $_btblInvoiceLines_indv->fAddCost=0; 
+  $_btblInvoiceLines_indv->cTradeinItem='';
+  $_btblInvoiceLines_indv->iStockCodeID=$tstockid_ind; 
+  $_btblInvoiceLines_indv->iJobID=0;
+  $_btblInvoiceLines_indv->iWarehouseID=4;
+  $_btblInvoiceLines_indv->iTaxTypeID=$customer_details->ideftaxtypeid;
+  $_btblInvoiceLines_indv->iPriceListNameID=1;
+  $_btblInvoiceLines_indv->fQuantityLineTotIncl=$tlineamtincl_indv;
+  $_btblInvoiceLines_indv->fQuantityLineTotExcl=$tlineamtexcl_indv;
+  $_btblInvoiceLines_indv->fQuantityLineTotInclNoDisc=$tlineamtincl_indv;
+  $_btblInvoiceLines_indv->fQuantityLineTotExclNoDisc =$tlineamtexcl_indv; 
+  $_btblInvoiceLines_indv->fQuantityLineTaxAmount =0; 
+  $_btblInvoiceLines_indv->fQuantityLineTaxAmountNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotIncl =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotExcl =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotInclNoDisc =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotExclNoDisc =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTaxAmount =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountNoDisc =0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotIncl =0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotExcl =0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotInclNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotExclNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmount =0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountNoDisc =0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotIncl=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotExcl =0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclNoDisc=0;
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclNoDisc=0;
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmount=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotIncl=0;
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotExcl=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotInclNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotExclNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmount=0;
+  $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountNoDisc=0; 
+  $_btblInvoiceLines_indv->fUnitPriceExclForeign=0; 
+  $_btblInvoiceLines_indv->fUnitPriceInclForeign=0; 
+  $_btblInvoiceLines_indv->fUnitCostForeign=0;
+  $_btblInvoiceLines_indv->fAddCostForeign=0;
+  $_btblInvoiceLines_indv->fQuantityLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQuantityLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQuantityLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQuantityLineTotExclNoDiscForeign=0;      
+  $_btblInvoiceLines_indv->fQuantityLineTaxAmountForeign=0; 
+  $_btblInvoiceLines_indv->fQuantityLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotExclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountForeign=0;
+  $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotExclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotExclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->iLineRepID=$customer_details->repid; 
+  $_btblInvoiceLines_indv->iLineProjectID=2; 
+  $_btblInvoiceLines_indv->iLedgerAccountID=0; 
+  $_btblInvoiceLines_indv->IModule=0;
+  $_btblInvoiceLines_indv->bChargeCom=1;
+  $_btblInvoiceLines_indv->bIsLotItem=0;
+  // $_btblInvoiceLines_indv->iLotID=0;
+  // $_btblInvoiceLines_indv->cLotNumber='';
+  // $_btblInvoiceLines_indv->dLotExpiryDate=null;
+  $_btblInvoiceLines_indv->iMFPID=0;
+  $_btblInvoiceLines_indv->iLineID=1;
+  $_btblInvoiceLines_indv->iLinkedLineID=0;
+  $_btblInvoiceLines_indv->fQtyLinkedUsed=null;
+  $_btblInvoiceLines_indv->fUnitPriceInclOrig=null;
+  $_btblInvoiceLines_indv->fUnitPriceExclOrig=Null;
+  $_btblInvoiceLines_indv->fUnitPriceInclForeignOrig=Null;
+  $_btblInvoiceLines_indv->fUnitPriceExclForeignOrig=0;
+  $_btblInvoiceLines_indv->iDeliveryMethodID=0;
+  $_btblInvoiceLines_indv->fQtyDeliver=0;
+  $_btblInvoiceLines_indv->dDeliveryDate=$today;
+  $_btblInvoiceLines_indv->iDeliveryStatus=0;
+  $_btblInvoiceLines_indv->fQtyForDelivery=0;
+  $_btblInvoiceLines_indv->bPromotionApplied=0;
+  $_btblInvoiceLines_indv->fPromotionPriceExcl=0;
+  $_btblInvoiceLines_indv->fPromotionPriceIncl=0;
+  $_btblInvoiceLines_indv->cPromotionCode=0;
+  $_btblInvoiceLines_indv->iSOLinkedPOLineID=0;
+  $_btblInvoiceLines_indv->fLength=0;
+  $_btblInvoiceLines_indv->fWidth=0;
+  $_btblInvoiceLines_indv->fHeight=0;
+  $_btblInvoiceLines_indv->iPieces=0;
+  $_btblInvoiceLines_indv->iPiecesToProcess=0;
+  $_btblInvoiceLines_indv->iPiecesLastProcess=0;
+  $_btblInvoiceLines_indv->iPiecesProcessed=0;
+  $_btblInvoiceLines_indv->iPiecesReserved=0;
+  $_btblInvoiceLines_indv->iPiecesDeliver=0;
+  $_btblInvoiceLines_indv->iPiecesForDelivery=0;
+  $_btblInvoiceLines_indv->fQuantityUR=1;
+  $_btblInvoiceLines_indv->fQtyChangeUR=1;
+  $_btblInvoiceLines_indv->fQtyToProcessUR=1;
+  $_btblInvoiceLines_indv->fQtyLastProcessUR=0;
+  $_btblInvoiceLines_indv->fQtyProcessedUR=0;
+  $_btblInvoiceLines_indv->fQtyReservedUR=0;
+  $_btblInvoiceLines_indv->fQtyReservedChangeUR=0;
+  $_btblInvoiceLines_indv->fQtyDeliverUR=0;
+  $_btblInvoiceLines_indv->fQtyForDeliveryUR=0;
+  $_btblInvoiceLines_indv->fQtyLinkedUsedUR=0;
+  $_btblInvoiceLines_indv->iPiecesLinkedUsed=0;
+  $_btblInvoiceLines_indv->iSalesWhseID=0;
+  $_btblInvoiceLines_indv->_btblInvoiceLines_iBranchID=0;
+  $_btblInvoiceLines_indv->udIDSOrdTxCMReadingDate='';
+  $_btblInvoiceLines_indv->uiIDSOrdTxCMPrevReading=$individual_color_consolidated->colpmr;
+  $_btblInvoiceLines_indv->uiIDSOrdTxCMCurrReading=$individual_color_consolidated->colcmr;
+  $_btblInvoiceLines_indv->ucIDSOrdTxCMMinVol='';
+  $_btblInvoiceLines_indv->ucIDSOrdTxCMRates='';
+  $_btblInvoiceLines_indv->ucIDSOrdTxCMServiceAsset=$individual_color_consolidated->ucSASerialNo;
+  $_btblInvoiceLines_indv->ucIDSOrdTxCMMeterType="BILLCOL"; 
+  $_btblInvoiceLines_indv->save();
+
+
+
+
+ }
+
+
+ }
 
 
 
@@ -3641,7 +4033,7 @@ DB::raw("(CASE WHEN icurrencyid = null THEN 0 ELSE icurrencyid END) AS icurrency
 //get po number
 //get po number
 $po_number =DB::table('OrdersDf')
-->where('DefaultCounter',101000000)
+->where('DefaultCounter',1)
 ->select('OrderPrefix','DNoPadLgth','NextCustNo')
 ->first();
 
@@ -3649,7 +4041,7 @@ $po_number =DB::table('OrdersDf')
 
 
 $update =DB::table('OrdersDf')
-->where('DefaultCounter',101000000)
+->where('DefaultCounter',1)
 ->update([
 'NextCustNo' => $po_number->NextCustNo +1
 ]);
@@ -3874,7 +4266,7 @@ $invoice_id = $invoice_id->autoindex;
 
 $update_udf =DB::table('_etblUserHistLink')
 ->insert([
-'userdictid' => 101000037,
+'userdictid' => 57,
 'Tableid' => $invoice_id,
 'UserValue' => 'MR'       
 ]);
@@ -4130,7 +4522,7 @@ $_btblInvoiceLines->fAddCost=0;
 $_btblInvoiceLines->cTradeinItem='';
 $_btblInvoiceLines->iStockCodeID=$tstockid; 
 $_btblInvoiceLines->iJobID=0;
-$_btblInvoiceLines->iWarehouseID=6;
+$_btblInvoiceLines->iWarehouseID=4;
 $_btblInvoiceLines->iTaxTypeID=$customer_details->ideftaxtypeid;
 $_btblInvoiceLines->iPriceListNameID=1;
 $_btblInvoiceLines->fQuantityLineTotIncl=$tlineamtincl;
@@ -4246,7 +4638,7 @@ $_btblInvoiceLines->fQtyForDeliveryUR=0;
 $_btblInvoiceLines->fQtyLinkedUsedUR=0;
 $_btblInvoiceLines->iPiecesLinkedUsed=0;
 $_btblInvoiceLines->iSalesWhseID=0;
-$_btblInvoiceLines->_btblInvoiceLines_iBranchID=1;
+$_btblInvoiceLines->_btblInvoiceLines_iBranchID=0;
 $_btblInvoiceLines->udIDSOrdTxCMReadingDate=$today;
 $_btblInvoiceLines->uiIDSOrdTxCMPrevReading=$t_mon_pmr;
 $_btblInvoiceLines->uiIDSOrdTxCMCurrReading=$t_mono_cmr;
@@ -4376,7 +4768,7 @@ $_btblInvoiceLines->fAddCost=0;
 $_btblInvoiceLines->cTradeinItem='';
 $_btblInvoiceLines->iStockCodeID=$tstockid; 
 $_btblInvoiceLines->iJobID=0;
-$_btblInvoiceLines->iWarehouseID=6;
+$_btblInvoiceLines->iWarehouseID=4;
 $_btblInvoiceLines->iTaxTypeID=$customer_details->ideftaxtypeid;
 $_btblInvoiceLines->iPriceListNameID=1;
 $_btblInvoiceLines->fQuantityLineTotIncl=$tlineamtincl;
@@ -4748,7 +5140,7 @@ $tlinedesc = " EXCESS COPIES DONE B/W From 1st $month_last to $lastday $month $t
  $_btblInvoiceLines->cTradeinItem='';
  $_btblInvoiceLines->iStockCodeID=$tstockid; 
  $_btblInvoiceLines->iJobID=0;
- $_btblInvoiceLines->iWarehouseID=6;
+ $_btblInvoiceLines->iWarehouseID=4;
  $_btblInvoiceLines->iTaxTypeID=$customer_details->ideftaxtypeid;
  $_btblInvoiceLines->iPriceListNameID=1;
  $_btblInvoiceLines->fQuantityLineTotIncl=$tlineamtincl;
@@ -4864,7 +5256,7 @@ $tlinedesc = " EXCESS COPIES DONE B/W From 1st $month_last to $lastday $month $t
  $_btblInvoiceLines->fQtyLinkedUsedUR=0;
  $_btblInvoiceLines->iPiecesLinkedUsed=0;
  $_btblInvoiceLines->iSalesWhseID=0;
- $_btblInvoiceLines->_btblInvoiceLines_iBranchID=1;
+ $_btblInvoiceLines->_btblInvoiceLines_iBranchID=0;
  $_btblInvoiceLines->udIDSOrdTxCMReadingDate=$today;
  $_btblInvoiceLines->uiIDSOrdTxCMPrevReading=$t_mon_pmr;
  $_btblInvoiceLines->uiIDSOrdTxCMCurrReading=$t_mono_cmr;
@@ -5060,7 +5452,7 @@ foreach($billing_color_consolidated as $data){
        $_btblInvoiceLines_color->cTradeinItem='';
        $_btblInvoiceLines_color->iStockCodeID=$tstockid; 
        $_btblInvoiceLines_color->iJobID=0;
-       $_btblInvoiceLines_color->iWarehouseID=6;
+       $_btblInvoiceLines_color->iWarehouseID=4;
        $_btblInvoiceLines_color->iTaxTypeID=$customer_details->ideftaxtypeid;
        $_btblInvoiceLines_color->iPriceListNameID=1;
        $_btblInvoiceLines_color->fQuantityLineTotIncl=$tlineamtincl;
@@ -5299,7 +5691,7 @@ $_btblInvoiceLines_color->fAddCost=0;
 $_btblInvoiceLines_color->cTradeinItem='';
 $_btblInvoiceLines_color->iStockCodeID=$tstockid; 
 $_btblInvoiceLines_color->iJobID=0;
-$_btblInvoiceLines_color->iWarehouseID=6;
+$_btblInvoiceLines_color->iWarehouseID=4;
 $_btblInvoiceLines_color->iTaxTypeID=$customer_details->ideftaxtypeid;
 $_btblInvoiceLines_color->iPriceListNameID=1;
 $_btblInvoiceLines_color->fQuantityLineTotIncl=$tlineamtincl;
@@ -5415,7 +5807,7 @@ $_btblInvoiceLines_color->fQtyForDeliveryUR=0;
 $_btblInvoiceLines_color->fQtyLinkedUsedUR=0;
 $_btblInvoiceLines_color->iPiecesLinkedUsed=0;
 $_btblInvoiceLines_color->iSalesWhseID=0;
-$_btblInvoiceLines_color->_btblInvoiceLines_iBranchID=1;
+$_btblInvoiceLines_color->_btblInvoiceLines_iBranchID=0;
 $_btblInvoiceLines_color->udIDSOrdTxCMReadingDate=$today;
 $_btblInvoiceLines_color->uiIDSOrdTxCMPrevReading=$t_color_pmr;
 $_btblInvoiceLines_color->uiIDSOrdTxCMCurrReading=$t_color_cmr;
@@ -5695,7 +6087,7 @@ $_btblInvoiceLines_color = new _btblInvoiceLines;
  $_btblInvoiceLines_color->cTradeinItem='';
  $_btblInvoiceLines_color->iStockCodeID=$tstockid; 
  $_btblInvoiceLines_color->iJobID=0;
- $_btblInvoiceLines_color->iWarehouseID=6;
+ $_btblInvoiceLines_color->iWarehouseID=4;
  $_btblInvoiceLines_color->iTaxTypeID=$customer_details->ideftaxtypeid;
  $_btblInvoiceLines_color->iPriceListNameID=1;
  $_btblInvoiceLines_color->fQuantityLineTotIncl=$tlineamtincl;
@@ -5811,7 +6203,7 @@ $_btblInvoiceLines_color = new _btblInvoiceLines;
  $_btblInvoiceLines_color->fQtyLinkedUsedUR=0;
  $_btblInvoiceLines_color->iPiecesLinkedUsed=0;
  $_btblInvoiceLines_color->iSalesWhseID=0;
- $_btblInvoiceLines_color->_btblInvoiceLines_iBranchID=1;
+ $_btblInvoiceLines_color->_btblInvoiceLines_iBranchID=0;
  $_btblInvoiceLines_color->udIDSOrdTxCMReadingDate=$today;
  $_btblInvoiceLines_color->uiIDSOrdTxCMPrevReading=$t_color_pmr;
  $_btblInvoiceLines_color->uiIDSOrdTxCMCurrReading=$t_color_cmr;
@@ -5920,7 +6312,7 @@ if($rental_charge > 0){
   $_btblInvoiceLines_rental->cTradeinItem='';
   $_btblInvoiceLines_rental->iStockCodeID=$tstockid; 
   $_btblInvoiceLines_rental->iJobID=0;
-  $_btblInvoiceLines_rental->iWarehouseID=6;
+  $_btblInvoiceLines_rental->iWarehouseID=4;
   $_btblInvoiceLines_rental->iTaxTypeID=$customer_details->ideftaxtypeid;
   $_btblInvoiceLines_rental->iPriceListNameID=1;
   $_btblInvoiceLines_rental->fQuantityLineTotIncl=$tlineamtincl;
@@ -6036,7 +6428,7 @@ if($rental_charge > 0){
   $_btblInvoiceLines_rental->fQtyLinkedUsedUR=0;
   $_btblInvoiceLines_rental->iPiecesLinkedUsed=0;
   $_btblInvoiceLines_rental->iSalesWhseID=0;
-  $_btblInvoiceLines_rental->_btblInvoiceLines_iBranchID=1;
+  $_btblInvoiceLines_rental->_btblInvoiceLines_iBranchID=0;
   $_btblInvoiceLines_rental->udIDSOrdTxCMReadingDate='';
   $_btblInvoiceLines_rental->uiIDSOrdTxCMPrevReading='';
   $_btblInvoiceLines_rental->uiIDSOrdTxCMCurrReading='';
@@ -6131,7 +6523,7 @@ if($software > 0){
   $_btblInvoiceLines_software->cTradeinItem='';
   $_btblInvoiceLines_software->iStockCodeID=$tstockid; 
   $_btblInvoiceLines_software->iJobID=0;
-  $_btblInvoiceLines_software->iWarehouseID=6;
+  $_btblInvoiceLines_software->iWarehouseID=4;
   $_btblInvoiceLines_software->iTaxTypeID=$customer_details->ideftaxtypeid;
   $_btblInvoiceLines_software->iPriceListNameID=1;
   $_btblInvoiceLines_software->fQuantityLineTotIncl=$tlineamtincl;
@@ -6246,7 +6638,7 @@ if($software > 0){
   $_btblInvoiceLines_software->fQtyLinkedUsedUR=0;
   $_btblInvoiceLines_software->iPiecesLinkedUsed=0;
   $_btblInvoiceLines_software->iSalesWhseID=0;
-  $_btblInvoiceLines_software->_btblInvoiceLines_iBranchID=1;
+  $_btblInvoiceLines_software->_btblInvoiceLines_iBranchID=0;
   $_btblInvoiceLines_software->udIDSOrdTxCMReadingDate='';
   $_btblInvoiceLines_software->uiIDSOrdTxCMPrevReading='';
   $_btblInvoiceLines_software->uiIDSOrdTxCMCurrReading='';
@@ -6259,12 +6651,396 @@ if($software > 0){
 
 }  
 
+  // individual items mono
+  $tlineamtexcl_indv = 0;
+  $tlineamttax = 0;
+  $tlineamtincl_indv = 0;
+  $tfclineamtexcl_indv = 0;
+  $tfclineamttax_indv = 0;
+  $tfclineamtincl_indv = 0;
+  $tlinenote_indv = "";
+  $tlinedesc_indv = "";
+  $tstockid_ind = 28587;
+  $tvolstr = "";
+  $tratestr = "";
+
+$individual_mono_consolidated = DB::table('_bvARAccountsFull As cl')
+->where('DCLink',$customer_details->dclink)
+->where('sa.ucSABillingAsset', '=',$value['ucSABillingAsset']) 
+->whereYear('ReadingDate', '=', $today->year)
+->whereMonth('ReadingDate', '=', $today->month)
+
+->select('cl.name','cl.account','cl.currencycode','cl.ulARJointSeparateBill','sa.ucSABillingAsset','cmr.moncmr','cmr.monpmr','sa.cDescription','sa.ucSASerialNo')
+->join('_smtblServiceAsset As sa', 'cl.DCLink', '=', 'sa.icustomerid')  
+->join('_cplmeterreading As cmr', 'sa.autoidx', '=', 'cmr.assetid')     
+->get();
+
+
+ foreach($individual_mono_consolidated as $data){
+
+ $_btblInvoiceLines_indv = new _btblInvoiceLines;
+ $_btblInvoiceLines_indv->iInvoiceID =$invoice_id;
+ $_btblInvoiceLines_indv->iOrigLineID =0;
+ $_btblInvoiceLines_indv->iGrvLineID =0;
+ $_btblInvoiceLines_indv->iLineDocketMode =0; 
+ $_btblInvoiceLines_indv->cDescription =$data->cDescription; 
+ $_btblInvoiceLines_indv->iUnitsOfMeasureStockingID=0; 
+ $_btblInvoiceLines_indv->iUnitsOfMeasureCategoryID=0;
+ $_btblInvoiceLines_indv->iUnitsOfMeasureID=0;
+ $_btblInvoiceLines_indv->fQuantity=1;
+ $_btblInvoiceLines_indv->fQtyChange=1;
+ $_btblInvoiceLines_indv->fQtyToProcess=1; 
+ $_btblInvoiceLines_indv->fQtyLastProcess=0; 
+ $_btblInvoiceLines_indv->fQtyProcessed =0; 
+ $_btblInvoiceLines_indv->fQtyReserved=0; 
+ $_btblInvoiceLines_indv->fQtyReservedChange =0;
+ $_btblInvoiceLines_indv->cLineNotes=$tlinenote_indv; 
+ $_btblInvoiceLines_indv->fUnitPriceExcl=$tlineamtexcl_indv; 
+ $_btblInvoiceLines_indv->fUnitPriceIncl=$tlineamtincl_indv;
+ $_btblInvoiceLines_indv->iUnitPriceOverrideReasonID=0; 
+ $_btblInvoiceLines_indv->fUnitCost=0;
+ $_btblInvoiceLines_indv->fLineDiscount=0; 
+ $_btblInvoiceLines_indv->iLineDiscountReasonID=0;
+ $_btblInvoiceLines_indv->iReturnReasonID=0; 
+ $_btblInvoiceLines_indv->fTaxRate=$tax_rate->TaxRate; 
+ $_btblInvoiceLines_indv->bIsSerialItem=0; 
+ $_btblInvoiceLines_indv->bIsWhseItem=1;
+ $_btblInvoiceLines_indv->fAddCost=0; 
+ $_btblInvoiceLines_indv->cTradeinItem='';
+ $_btblInvoiceLines_indv->iStockCodeID=$tstockid_ind; 
+ $_btblInvoiceLines_indv->iJobID=0;
+ $_btblInvoiceLines_indv->iWarehouseID=4;
+ $_btblInvoiceLines_indv->iTaxTypeID=$customer_details->ideftaxtypeid;
+ $_btblInvoiceLines_indv->iPriceListNameID=1;
+ $_btblInvoiceLines_indv->fQuantityLineTotIncl=$tlineamtincl_indv;
+ $_btblInvoiceLines_indv->fQuantityLineTotExcl=$tlineamtexcl_indv;
+ $_btblInvoiceLines_indv->fQuantityLineTotInclNoDisc=$tlineamtincl_indv;
+ $_btblInvoiceLines_indv->fQuantityLineTotExclNoDisc =$tlineamtexcl_indv; 
+ $_btblInvoiceLines_indv->fQuantityLineTaxAmount =0; 
+ $_btblInvoiceLines_indv->fQuantityLineTaxAmountNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotIncl =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotExcl =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotInclNoDisc =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotExclNoDisc =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTaxAmount =0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountNoDisc =0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotIncl =0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotExcl =0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotInclNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotExclNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmount =0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountNoDisc =0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotIncl=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotExcl =0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclNoDisc=0;
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclNoDisc=0;
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmount=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotIncl=0;
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotExcl=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotInclNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotExclNoDisc=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmount=0;
+ $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountNoDisc=0; 
+ $_btblInvoiceLines_indv->fUnitPriceExclForeign=0; 
+ $_btblInvoiceLines_indv->fUnitPriceInclForeign=0; 
+ $_btblInvoiceLines_indv->fUnitCostForeign=0;
+ $_btblInvoiceLines_indv->fAddCostForeign=0;
+ $_btblInvoiceLines_indv->fQuantityLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQuantityLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQuantityLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQuantityLineTotExclNoDiscForeign=0;      
+ $_btblInvoiceLines_indv->fQuantityLineTaxAmountForeign=0; 
+ $_btblInvoiceLines_indv->fQuantityLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTotExclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountForeign=0;
+ $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTotExclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountForeign=0; 
+ $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountForeign=0; 
+ $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotInclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotExclForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotInclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTotExclNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountForeign=0; 
+ $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountNoDiscForeign=0; 
+ $_btblInvoiceLines_indv->iLineRepID=$customer_details->repid; 
+ $_btblInvoiceLines_indv->iLineProjectID=2; 
+ $_btblInvoiceLines_indv->iLedgerAccountID=0; 
+ $_btblInvoiceLines_indv->IModule=0;
+ $_btblInvoiceLines_indv->bChargeCom=1;
+ $_btblInvoiceLines_indv->bIsLotItem=0;
+//  $_btblInvoiceLines_indv->iLotID=0;
+//  $_btblInvoiceLines_indv->cLotNumber='';
+//  $_btblInvoiceLines_indv->dLotExpiryDate=null;
+ $_btblInvoiceLines_indv->iMFPID=0;
+ $_btblInvoiceLines_indv->iLineID=1;
+ $_btblInvoiceLines_indv->iLinkedLineID=0;
+ $_btblInvoiceLines_indv->fQtyLinkedUsed=null;
+ $_btblInvoiceLines_indv->fUnitPriceInclOrig=null;
+ $_btblInvoiceLines_indv->fUnitPriceExclOrig=Null;
+ $_btblInvoiceLines_indv->fUnitPriceInclForeignOrig=Null;
+ $_btblInvoiceLines_indv->fUnitPriceExclForeignOrig=0;
+ $_btblInvoiceLines_indv->iDeliveryMethodID=0;
+ $_btblInvoiceLines_indv->fQtyDeliver=0;
+ $_btblInvoiceLines_indv->dDeliveryDate=$today;
+ $_btblInvoiceLines_indv->iDeliveryStatus=0;
+ $_btblInvoiceLines_indv->fQtyForDelivery=0;
+ $_btblInvoiceLines_indv->bPromotionApplied=0;
+ $_btblInvoiceLines_indv->fPromotionPriceExcl=0;
+ $_btblInvoiceLines_indv->fPromotionPriceIncl=0;
+ $_btblInvoiceLines_indv->cPromotionCode=0;
+ $_btblInvoiceLines_indv->iSOLinkedPOLineID=0;
+ $_btblInvoiceLines_indv->fLength=0;
+ $_btblInvoiceLines_indv->fWidth=0;
+ $_btblInvoiceLines_indv->fHeight=0;
+ $_btblInvoiceLines_indv->iPieces=0;
+ $_btblInvoiceLines_indv->iPiecesToProcess=0;
+ $_btblInvoiceLines_indv->iPiecesLastProcess=0;
+ $_btblInvoiceLines_indv->iPiecesProcessed=0;
+ $_btblInvoiceLines_indv->iPiecesReserved=0;
+ $_btblInvoiceLines_indv->iPiecesDeliver=0;
+ $_btblInvoiceLines_indv->iPiecesForDelivery=0;
+ $_btblInvoiceLines_indv->fQuantityUR=1;
+ $_btblInvoiceLines_indv->fQtyChangeUR=1;
+ $_btblInvoiceLines_indv->fQtyToProcessUR=1;
+ $_btblInvoiceLines_indv->fQtyLastProcessUR=0;
+ $_btblInvoiceLines_indv->fQtyProcessedUR=0;
+ $_btblInvoiceLines_indv->fQtyReservedUR=0;
+ $_btblInvoiceLines_indv->fQtyReservedChangeUR=0;
+ $_btblInvoiceLines_indv->fQtyDeliverUR=0;
+ $_btblInvoiceLines_indv->fQtyForDeliveryUR=0;
+ $_btblInvoiceLines_indv->fQtyLinkedUsedUR=0;
+ $_btblInvoiceLines_indv->iPiecesLinkedUsed=0;
+ $_btblInvoiceLines_indv->iSalesWhseID=0;
+ $_btblInvoiceLines_indv->_btblInvoiceLines_iBranchID=0;
+ $_btblInvoiceLines_indv->udIDSOrdTxCMReadingDate='';
+ $_btblInvoiceLines_indv->uiIDSOrdTxCMPrevReading=$data->monpmr;
+ $_btblInvoiceLines_indv->uiIDSOrdTxCMCurrReading=$data->moncmr;
+ $_btblInvoiceLines_indv->ucIDSOrdTxCMMinVol='';
+ $_btblInvoiceLines_indv->ucIDSOrdTxCMRates='';
+ $_btblInvoiceLines_indv->ucIDSOrdTxCMServiceAsset=$data->ucSASerialNo;
+ $_btblInvoiceLines_indv->ucIDSOrdTxCMMeterType="BILLMON"; 
+ $_btblInvoiceLines_indv->save();
+
+//  individual color
+
+
+ $individual_color_consolidated = DB::table('_bvARAccountsFull As cl')
+ ->where('DCLink',$customer_details->dclink)
+ ->where('sa.ucSASerialNo',$data->ucSASerialNo)
+ ->Where(function($query)
+ {
+  $query->where('cmr.colcmr','!=','')
+        ->orwhere('cmr.colpmr','!=','');
+       
+
+    
+ })
+ ->where('sa.ucSABillingAsset', '=',$value['ucSABillingAsset']) 
+ ->whereYear('ReadingDate', '=', $today->year)
+ ->whereMonth('ReadingDate', '=', $today->month)
+ 
+
+ ->select('cl.name','cl.account','cl.currencycode','cl.ulARJointSeparateBill','sa.ucSABillingAsset','cmr.colcmr','cmr.colpmr','sa.cDescription','sa.ucSASerialNo')
+ ->join('_smtblServiceAsset As sa', 'cl.DCLink', '=', 'sa.icustomerid')  
+ ->join('_cplmeterreading As cmr', 'sa.autoidx', '=', 'cmr.assetid')  
+      
+ ->first();
 
 
 
-   
+  if(!empty($individual_color_consolidated)){             
+
+  $tlineamtexcl_indv = 0;
+  $tlineamttax = 0;
+  $tlineamtincl_indv = 0;
+  $tfclineamtexcl_indv = 0;
+  $tfclineamttax_indv = 0;
+  $tfclineamtincl_indv = 0;
+  $tlinenote_indv = "";
+  $tlinedesc_indv = "";
+  $tstockid_ind = 28587;
+  $tvolstr = "";
+  $tratestr = "";
 
 
+  $_btblInvoiceLines_indv = new _btblInvoiceLines;
+  $_btblInvoiceLines_indv->iInvoiceID =$invoice_id;
+  $_btblInvoiceLines_indv->iOrigLineID =0;
+  $_btblInvoiceLines_indv->iGrvLineID =0;
+  $_btblInvoiceLines_indv->iLineDocketMode =0; 
+  $_btblInvoiceLines_indv->cDescription =$individual_color_consolidated->cDescription; 
+  $_btblInvoiceLines_indv->iUnitsOfMeasureStockingID=0; 
+  $_btblInvoiceLines_indv->iUnitsOfMeasureCategoryID=0;
+  $_btblInvoiceLines_indv->iUnitsOfMeasureID=0;
+  $_btblInvoiceLines_indv->fQuantity=1;
+  $_btblInvoiceLines_indv->fQtyChange=1;
+  $_btblInvoiceLines_indv->fQtyToProcess=1; 
+  $_btblInvoiceLines_indv->fQtyLastProcess=0; 
+  $_btblInvoiceLines_indv->fQtyProcessed =0; 
+  $_btblInvoiceLines_indv->fQtyReserved=0; 
+  $_btblInvoiceLines_indv->fQtyReservedChange =0;
+  $_btblInvoiceLines_indv->cLineNotes=$tlinenote_indv; 
+  $_btblInvoiceLines_indv->fUnitPriceExcl=$tlineamtexcl_indv; 
+  $_btblInvoiceLines_indv->fUnitPriceIncl=$tlineamtincl_indv;
+  $_btblInvoiceLines_indv->iUnitPriceOverrideReasonID=0; 
+  $_btblInvoiceLines_indv->fUnitCost=0;
+  $_btblInvoiceLines_indv->fLineDiscount=0; 
+  $_btblInvoiceLines_indv->iLineDiscountReasonID=0;
+  $_btblInvoiceLines_indv->iReturnReasonID=0; 
+  $_btblInvoiceLines_indv->fTaxRate=$tax_rate->TaxRate; 
+  $_btblInvoiceLines_indv->bIsSerialItem=0; 
+  $_btblInvoiceLines_indv->bIsWhseItem=1;
+  $_btblInvoiceLines_indv->fAddCost=0; 
+  $_btblInvoiceLines_indv->cTradeinItem='';
+  $_btblInvoiceLines_indv->iStockCodeID=$tstockid_ind; 
+  $_btblInvoiceLines_indv->iJobID=0;
+  $_btblInvoiceLines_indv->iWarehouseID=4;
+  $_btblInvoiceLines_indv->iTaxTypeID=$customer_details->ideftaxtypeid;
+  $_btblInvoiceLines_indv->iPriceListNameID=1;
+  $_btblInvoiceLines_indv->fQuantityLineTotIncl=$tlineamtincl_indv;
+  $_btblInvoiceLines_indv->fQuantityLineTotExcl=$tlineamtexcl_indv;
+  $_btblInvoiceLines_indv->fQuantityLineTotInclNoDisc=$tlineamtincl_indv;
+  $_btblInvoiceLines_indv->fQuantityLineTotExclNoDisc =$tlineamtexcl_indv; 
+  $_btblInvoiceLines_indv->fQuantityLineTaxAmount =0; 
+  $_btblInvoiceLines_indv->fQuantityLineTaxAmountNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotIncl =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotExcl =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotInclNoDisc =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotExclNoDisc =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTaxAmount =0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountNoDisc =0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotIncl =0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotExcl =0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotInclNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotExclNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmount =0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountNoDisc =0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotIncl=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotExcl =0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclNoDisc=0;
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclNoDisc=0;
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmount=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotIncl=0;
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotExcl=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotInclNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotExclNoDisc=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmount=0;
+  $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountNoDisc=0; 
+  $_btblInvoiceLines_indv->fUnitPriceExclForeign=0; 
+  $_btblInvoiceLines_indv->fUnitPriceInclForeign=0; 
+  $_btblInvoiceLines_indv->fUnitCostForeign=0;
+  $_btblInvoiceLines_indv->fAddCostForeign=0;
+  $_btblInvoiceLines_indv->fQuantityLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQuantityLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQuantityLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQuantityLineTotExclNoDiscForeign=0;      
+  $_btblInvoiceLines_indv->fQuantityLineTaxAmountForeign=0; 
+  $_btblInvoiceLines_indv->fQuantityLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTotExclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountForeign=0;
+  $_btblInvoiceLines_indv->fQtyChangeLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTotExclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountForeign=0; 
+  $_btblInvoiceLines_indv->fQtyToProcessLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTotExclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountForeign=0; 
+  $_btblInvoiceLines_indv->fQtyLastProcessLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotInclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotExclForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotInclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTotExclNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountForeign=0; 
+  $_btblInvoiceLines_indv->fQtyProcessedLineTaxAmountNoDiscForeign=0; 
+  $_btblInvoiceLines_indv->iLineRepID=$customer_details->repid; 
+  $_btblInvoiceLines_indv->iLineProjectID=2; 
+  $_btblInvoiceLines_indv->iLedgerAccountID=0; 
+  $_btblInvoiceLines_indv->IModule=0;
+  $_btblInvoiceLines_indv->bChargeCom=1;
+  $_btblInvoiceLines_indv->bIsLotItem=0;
+  // $_btblInvoiceLines_indv->iLotID=0;
+  // $_btblInvoiceLines_indv->cLotNumber='';
+  // $_btblInvoiceLines_indv->dLotExpiryDate=null;
+  $_btblInvoiceLines_indv->iMFPID=0;
+  $_btblInvoiceLines_indv->iLineID=1;
+  $_btblInvoiceLines_indv->iLinkedLineID=0;
+  $_btblInvoiceLines_indv->fQtyLinkedUsed=null;
+  $_btblInvoiceLines_indv->fUnitPriceInclOrig=null;
+  $_btblInvoiceLines_indv->fUnitPriceExclOrig=Null;
+  $_btblInvoiceLines_indv->fUnitPriceInclForeignOrig=Null;
+  $_btblInvoiceLines_indv->fUnitPriceExclForeignOrig=0;
+  $_btblInvoiceLines_indv->iDeliveryMethodID=0;
+  $_btblInvoiceLines_indv->fQtyDeliver=0;
+  $_btblInvoiceLines_indv->dDeliveryDate=$today;
+  $_btblInvoiceLines_indv->iDeliveryStatus=0;
+  $_btblInvoiceLines_indv->fQtyForDelivery=0;
+  $_btblInvoiceLines_indv->bPromotionApplied=0;
+  $_btblInvoiceLines_indv->fPromotionPriceExcl=0;
+  $_btblInvoiceLines_indv->fPromotionPriceIncl=0;
+  $_btblInvoiceLines_indv->cPromotionCode=0;
+  $_btblInvoiceLines_indv->iSOLinkedPOLineID=0;
+  $_btblInvoiceLines_indv->fLength=0;
+  $_btblInvoiceLines_indv->fWidth=0;
+  $_btblInvoiceLines_indv->fHeight=0;
+  $_btblInvoiceLines_indv->iPieces=0;
+  $_btblInvoiceLines_indv->iPiecesToProcess=0;
+  $_btblInvoiceLines_indv->iPiecesLastProcess=0;
+  $_btblInvoiceLines_indv->iPiecesProcessed=0;
+  $_btblInvoiceLines_indv->iPiecesReserved=0;
+  $_btblInvoiceLines_indv->iPiecesDeliver=0;
+  $_btblInvoiceLines_indv->iPiecesForDelivery=0;
+  $_btblInvoiceLines_indv->fQuantityUR=1;
+  $_btblInvoiceLines_indv->fQtyChangeUR=1;
+  $_btblInvoiceLines_indv->fQtyToProcessUR=1;
+  $_btblInvoiceLines_indv->fQtyLastProcessUR=0;
+  $_btblInvoiceLines_indv->fQtyProcessedUR=0;
+  $_btblInvoiceLines_indv->fQtyReservedUR=0;
+  $_btblInvoiceLines_indv->fQtyReservedChangeUR=0;
+  $_btblInvoiceLines_indv->fQtyDeliverUR=0;
+  $_btblInvoiceLines_indv->fQtyForDeliveryUR=0;
+  $_btblInvoiceLines_indv->fQtyLinkedUsedUR=0;
+  $_btblInvoiceLines_indv->iPiecesLinkedUsed=0;
+  $_btblInvoiceLines_indv->iSalesWhseID=0;
+  $_btblInvoiceLines_indv->_btblInvoiceLines_iBranchID=0;
+  $_btblInvoiceLines_indv->udIDSOrdTxCMReadingDate='';
+  $_btblInvoiceLines_indv->uiIDSOrdTxCMPrevReading=$individual_color_consolidated->colpmr;
+  $_btblInvoiceLines_indv->uiIDSOrdTxCMCurrReading=$individual_color_consolidated->colcmr;
+  $_btblInvoiceLines_indv->ucIDSOrdTxCMMinVol='';
+  $_btblInvoiceLines_indv->ucIDSOrdTxCMRates='';
+  $_btblInvoiceLines_indv->ucIDSOrdTxCMServiceAsset=$individual_color_consolidated->ucSASerialNo;
+  $_btblInvoiceLines_indv->ucIDSOrdTxCMMeterType="BILLCOL"; 
+  $_btblInvoiceLines_indv->save();
+
+
+
+
+ }
+
+
+ }
 
 
 

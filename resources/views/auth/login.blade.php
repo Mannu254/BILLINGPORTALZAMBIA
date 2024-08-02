@@ -2,233 +2,178 @@
 
 @section('content')
 <style>
-    /* * * * * General CSS * * * * */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+
+ a:hover {
+    text-decoration: underline;
+    outline: none;
 }
-
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  color: #666666;
-  background: #eaeff4;
-}
-
-
-.container {
-margin-top: 7%;
-  position: relative;
-  width: 100%;
-  max-width: 890px !important;
- height: 420px !important;
-  display: flex;
-  background: #ffffff;
-  box-shadow: 0 0 15px rgba(0, 0, 0, .1);
-}
-
-.credit {
-  position: relative;
-  margin: 25px auto 0 auto;
-  width: 100%;
-  text-align: center;
-  color: #666666;
-  font-size: 14px;
-  font-weight: 400;
-}
-
-.credit a {
-  color: #222222;
-  font-size: 12px;
- 
- 
-}
-
-/* * * * * Login Form CSS * * * * */
-
-
-
-
-.btn {
-  display: inline-block;
-  padding: 7px 20px;
-  font-size: 14px;
-  letter-spacing: 1px;
-  text-decoration: none;
-  border-radius: 5px;
-  color: #ffffff;
-  outline: none;
-  border: 1px solid #ffffff;
-  transition: .3s;
-  -webkit-transition: .3s;
-}
-
-.btn:hover {
-  color: #4CAF50;
-  background: #ffffff;
-}
-
-.col-left,
-.col-right {
-  width: 52%;
-  padding: 45px 35px;
-  display: flex;
-}
-
-.col-left {
-  width: 60%;
-  
-  background-image: url("../storage/uploads/tzlogo.png");
-  background-size: cover;
-  
-  -webkit-clip-path: polygon(98% 17%, 100% 34%, 98% 51%, 100% 68%, 98% 84%, 100% 100%, 0 100%, 0 0, 100% 0);
-  clip-path: polygon(98% 17%, 100% 34%, 98% 51%, 100% 68%, 98% 84%, 100% 100%, 0 100%, 0 0, 100% 0);
-}
-
-@media(max-width: 575.98px) {
-  .container {
-    flex-direction: column;
-    box-shadow: none;
-  }
-
-  .col-left,
-  .col-right {
-    width: 100%;
+ul {
     margin: 0;
-    padding: 30px;
-    -webkit-clip-path: none;
-    clip-path: none;
-  }
+    padding: 0;
+    list-style: none;
 }
-
-.login-text {
-  position: relative;
-  width: 100%;
-  color: #ffffff;
-  text-align: center;
-}
-
-.login-form {
-  position: relative;
-  width: 100%;
-  color: #666666;
-}
-
-.login-form p:last-child {
-  margin: 0;
-}
-
-.login-form p a {
-  color: #4CAF50;
-  font-size: 12px;
-  text-decoration: none;
-
-}
-
-.login-form p:last-child a:last-child {
-  float: right;
-}
-
-.login-form label {
-  display: block;
-  width: 100%;
- 
-}
-
-.login-form p:last-child label {
-  width: 100%;
-  float: left;
-}
-
-.login-form label span {
-  color: #ff574e;
-  padding-left: 2px;
-}
-
-.login-form input {
-  display: block;
-  width: 100%;
-  height: 40px;
-  padding: 0 40px;
-  font-size: 14px;
-  margin-top: 20px;
-  letter-spacing: 1px;
-  outline: none;
-  border: 1px solid #cccccc;
-  border-radius: 5px;
+P{
+  color: white;
 }
 
 
-.login-form input:focus {
-  border-color: #ff574e;
-}
 
-.login-form input.btn {
-  color: #ffffff;
-  background:#00BFFF;
-  border-color:#00BFFF;
-  outline: none;
-  cursor: pointer;
-}
-
-.login-form input.btn:hover {
-  color: #4CAF50;
-  background: #ffffff;
-}
-.AppFormRight{
-    margin-top:130px;
-    z-index: 1;
-    font-weight:400;
-    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
-}
-input[type="checkbox"] {
-  margin-top: 3px; 
-  height: 1.5rem;
-  margin-right: 35px !important;
+.bg-gradient2 {
+    background: #0ebdca;
   
 }
 
+.bg-overlay-gradient {
+    background: #d8d8da;
+    background: -webkit-linear-gradient(to right, #797cd2, #393e9e);
+    background: linear-gradient(to right, #797cd2, #393e9e);
+    opacity: 0.9;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
 
+.home-table-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.home-table {
+    display: table;
+    width: 100%;
+    
+}
+
+.header_title {
+    font-size: 44px;
+    line-height: 1.2;
+    max-width: 850px;
+    text-transform: capitalize;
+}
+
+.small_title p {
+    font-size: 16px;
+    border-radius: 30px;
+    padding: 4px 18px;
+    background-color: rgba(255, 255, 255, 0.1);
+    display: inline-block;
+}
+
+.header_subtitle {
+    line-height: 1.8;
+    max-width: 450px;
+    color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.home-desk {
+    position: relative;
+    top: 60px;
+    z-index: 100;
+}
+
+
+.btn-custom {
+    background-color: #0ebdca;
+    border: 2px solid #8a9595;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.5s;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    text-transform: capitalize;
+}
+.btn-custom:hover{
+    opacity: 0.8;
+}
+.account_box{
+    border-radius: 12px;
+    box-shadow: 10px -10px 0 4px #edc373;
+    padding: 50px 40px;
+}
+
+.account_box h5 {
+    font-size: 16px;
+    max-width: 100%;
+    line-height: 1.4;
+}
+.account_box .form-control{
+    box-shadow: none !important;
+    color: #fff;
+    height: 46px;
+    border: none;
+    border-radius: 3px;
+    font-size: 14px;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.account_box .form-control::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.account_box .form-control::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.account_box .form-control:-ms-input-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.account_box .form-control:-moz-placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
 
     
 </style>
+<br><br>
 
-<div class="container">
-<div class="col-left">
-<div class="login-text">
-<div class="AppFormRight position-relative d-flex justify-content-center flex-column align-items-center text-center p-6 text-white">
-<h4 class="position-relative px-4 pb-2 mb-3">MFI TANZANIA BILLING PORTAL </h4></div>
-</div>
-</div>
-<div class="col-right">
-<div class="login-form">
-<h2>Login</h2>
-<form method="POST" action="{{ route('login') }}">
-            @csrf
- <p>
-<input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-@error('email')<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror
-</p>
-<p>
-<input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
-@error('password')<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror</p><p>
-<input class="btn" type="submit" value="Sign In" /></p>
-<p class="row mt-8"> @if (Route::has('password.request'))<a class="btn btn-link" href="{{ route('password.request') }}">
-                {{ __('Forgot Your Password?') }}</a>
-@endif
-
-</p>
-<div style="float:right;margin-right:60px !important; div2">
-
-<input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-<label class="" for="remember">{{ __('Remember Me ?') }}</label>
-</div>
-</form>
-</div>
-</div>
-
+<div class="bg-gradient">          
+  <div class="home-table">
+      <div class="home-table-center">
+          <div class="container">
+              <div class="row justify-content-center">
+                  <div class="col-lg-5">                      
+                      <div class="account_box bg-gradient2">
+                        <div class="text-center">
+                          <p class="mb-4 pb-3">MFI ZAMBIA BILLING</p>
+                      </div>
+                          <form method="POST" action="{{ route('login')}}">
+                           @csrf
+                              <div class="col-lg-12 mt-3">
+                                  <label class="text-white">Email</label>
+                                  <input id="email" type="email" class="form-control  @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="Email">
+                                  @error('email')<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror
+                              </div>
+                              <div class="col-lg-12 mt-3">
+                                  <label class="text-white">Password</label>
+                                  <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
+                                  @error('password')<span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>@enderror
+                              </div>
+                              <div class="col-lg-12 mt-3">
+                                  <div class="custom-control">                                   
+                                      <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                       <label class="text-white">Remember me ?</label>                         
+                                      
+                                  </div>
+                              </div>
+                              <div class="col-lg-12">
+                                  <button class="btn btn-custom w-100 mt-3">Sign In</button>
+                              </div>
+                              <div>
+                                @if (Route::has('password.request'))
+                                  <p class="mb-0 text-center mt-3"><a href="{{ route('password.request') }}" class="text-white font-weight-bold">Forgot your password ?</a></p>
+                                  @endif
+                              </div>
+                          </form>
+                      </div>
+                     
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
+</div>
 @endsection
